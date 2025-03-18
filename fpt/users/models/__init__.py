@@ -1,0 +1,1 @@
+from fpt.users.models.users import *  # noqa
