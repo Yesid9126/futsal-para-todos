@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
                 ('created', models.DateTimeField(auto_now_add=True, help_text='Date time on which the object was created.', verbose_name='created at')),
                 ('modified', models.DateTimeField(auto_now=True, help_text='Date time on which the object was last modified.', verbose_name='modified at')),
                 ('name', models.CharField(max_length=255, verbose_name='Nombre de la marca')),
-                ('slug_name', models.SlugField(max_length=40, unique=True, verbose_name='Slug de la marca')),
+                ('slug_name', models.SlugField(max_length=40, verbose_name='Slugname de la marca', blank=True, null=True)),
                 ('description', models.TextField(blank=True, null=True, verbose_name='Descripción de la marca')),
             ],
             options={
@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
                 ('created', models.DateTimeField(auto_now_add=True, help_text='Date time on which the object was created.', verbose_name='created at')),
                 ('modified', models.DateTimeField(auto_now=True, help_text='Date time on which the object was last modified.', verbose_name='modified at')),
                 ('name', models.CharField(max_length=255, verbose_name='Nombre de la categoría')),
-                ('slug_name', models.SlugField(max_length=40, unique=True, verbose_name='Slug de la categoría')),
+                ('slug_name', models.SlugField(max_length=40, verbose_name='Slugname de la categoría', blank=True, null=True)),
                 ('description', models.TextField(blank=True, null=True, verbose_name='Descripción de la categoría')),
             ],
             options={
@@ -51,7 +51,7 @@ class Migration(migrations.Migration):
                 ('created', models.DateTimeField(auto_now_add=True, help_text='Date time on which the object was created.', verbose_name='created at')),
                 ('modified', models.DateTimeField(auto_now=True, help_text='Date time on which the object was last modified.', verbose_name='modified at')),
                 ('name', models.CharField(max_length=255, verbose_name='Nombre del producto')),
-                ('slug_name', models.SlugField(max_length=40, unique=True, verbose_name='Slug de la categoría')),
+                ('slug_name', models.SlugField(max_length=40, verbose_name='Slugname de la categoría', blank=True, null=True)),
                 ('description', models.TextField(blank=True, null=True, verbose_name='Descripción del producto')),
                 ('stock', models.PositiveIntegerField(default=0, verbose_name='Stock del producto')),
                 ('sku', models.CharField(blank=True, max_length=50, null=True, verbose_name='Product SKU')),
