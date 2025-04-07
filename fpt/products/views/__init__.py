@@ -1,1 +1,1 @@
-from .landing import * # noqa
+from .landing import *  # noqa

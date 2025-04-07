@@ -4,13 +4,13 @@
 /* font */
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap');
 /* variable */
-:root {     
+:root {
     --base-color: #1B3250;
     --dark-gray: #16202c;
     --medium-gray: #888e95;
     --alt-font: 'Plus Jakarta Sans', sans-serif;
     --primary-font: 'Plus Jakarta Sans', sans-serif;
-} 
+}
 /* reset */
 body {
     font-size: 16px;
@@ -198,7 +198,7 @@ section, footer {
 }
 /* progress bar 02 */
 .progress-bar-style-02 .progress {
-    height: 10px; 
+    height: 10px;
 }
 /* contact form style 03 */
 .contact-form-style-03 .form-group.form-textarea .form-icon {
