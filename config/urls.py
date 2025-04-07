@@ -15,6 +15,7 @@ urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
     path("accounts/", include("allauth.urls")),
+    path("", include("fpt.users.urls", namespace="landing")),
     # Your stuff: custom urls includes go here
     # ...
     # Media files

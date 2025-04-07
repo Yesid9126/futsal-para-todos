@@ -1,127 +1,511 @@
-{% load static i18n %}
+{% load static %}
 
 <!DOCTYPE html>
-{% get_current_language as LANGUAGE_CODE %}
-<html lang="{{ LANGUAGE_CODE }}">
+<html class="no-js" lang="en">
   <head>
+    <title>Futsal para todos</title>
     <meta charset="utf-8" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>
-      {% block title %}
-        futsal_para_todos
-      {% endblock title %}
-    </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="sport ecommerce" />
-    <meta name="author" content="yesid franco" />
-    <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}" />
-    {% block css %}
-      <!-- Latest compiled and minified Bootstrap CSS -->
-      <link rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css"
-            integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer" />
-      <!-- Your stuff: Third-party CSS libraries go here -->
-      <!-- This file stores project-specific CSS -->
-      <link href="{% static 'css/project.css' %}" rel="stylesheet" />
-    {% endblock css %}
-    <!-- Le javascript
-    ================================================== -->
-    {# Placed at the top of the document so pages load faster with defer #}
-    {% block javascript %}
-      <!-- Bootstrap JS -->
-      <script defer
-              src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"
-              integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g=="
-              crossorigin="anonymous"
-              referrerpolicy="no-referrer"></script>
-      <!-- Your stuff: Third-party javascript libraries go here -->
-      <!-- place project specific Javascript in this file -->
-      <script defer src="{% static 'js/project.js' %}"></script>
-    {% endblock javascript %}
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="author" content="ThemeZaa" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta name="description"
+          content="Elevate your online presence with Crafto - a modern, versatile, multipurpose Bootstrap 5 responsive HTML5, SCSS template using highly creative 48+ ready demos." />
+    <!-- favicon icon -->
+    <link rel="shortcut icon" href="images/favicon.png" />
+    <link rel="apple-touch-icon" href="images/apple-touch-icon-57x57.png" />
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" />
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="apple-touch-icon"
+          sizes="72x72"
+          href="images/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon"
+          sizes="114x114"
+          href="images/apple-touch-icon-114x114.png" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+          integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer" />
+    <!-- google fonts preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- slider revolution CSS files -->
+    <link rel="stylesheet"
+          type="text/css"
+          href="{% static 'css/revolution/settings.css' %}" />
+    <link rel="stylesheet"
+          type="text/css"
+          href="{% static 'css/revolution/layers.css' %}" />
+    <link rel="stylesheet"
+          type="text/css"
+          href="{% static 'css/revolution/navigation.css' %}" />
+    <!-- style sheets and font icons  -->
+    <link rel="stylesheet" href="{% static 'css/vendors.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/icon.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/responsive.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/decor-store.css' %}" />
   </head>
-  <body class="{% block bodyclass %}{% endblock bodyclass %}">
-    {% block body %}
-      <div class="mb-1">
-        <nav class="navbar navbar-expand-md navbar-light bg-light">
-          <div class="container-fluid">
-            <button class="navbar-toggler navbar-toggler-right"
+  <style>
+    .navbar-expand-lg .navbar-collapse {
+      background-color: black !important;
+    }
+
+    .simple-dropdown .dropdown-toggle {
+      color: white;
+    }
+
+    .background-custom {
+      background-color: black
+    }
+  </style>
+  <body data-mobile-nav-style="classic">
+    <!-- start header -->
+    <header class="header-with-topbar">
+      <!-- start header top bar -->
+      <div class="header-top-bar top-bar-light bg-white disable-fixed border-bottom border-color-transparent-dark-very-light">
+        <div class="container-fluid">
+          <div class="row h-45px align-items-center m-0">
+            <div class="col-lg-7 col-md-8 text-center text-md-start">
+              <div class="fs-13 text-dark-gray alt-font fw-600">
+                Registrate ahora y obtendrás un 20% de dcto. <a href="#" class="text-dark-gray fw-700 text-decoration-line-bottom">Shop now</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end header top bar -->
+      <!-- start navigation -->
+      <nav class="navbar navbar-expand-lg bg-black responsive-sticky header-demo"
+           data-header-hover="light">
+        <div class="container-fluid">
+          <div class="col-auto">
+            <a class="navbar-brand" href="#">
+              <img src="{% static 'images/fpt_logo.png' %}" alt="" class="default-logo" />
+              <img src="{% static 'images/fpt_logo.png' %}" alt="" class="mobile-logo" />
+            </a>
+          </div>
+          <div class="col-auto menu-order">
+            <button class="navbar-toggler float-start"
                     type="button"
                     data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent"
-                    aria-expanded="false"
+                    data-bs-target="#navbarNav"
+                    aria-controls="navbarNav"
                     aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
+              <span class="navbar-toggler-line"></span>
+              <span class="navbar-toggler-line"></span>
+              <span class="navbar-toggler-line"></span>
+              <span class="navbar-toggler-line"></span>
             </button>
-            <a class="navbar-brand" href="{% url 'home' %}">futsal_para_todos</a>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                  <a class="nav-link" href="{% url 'home' %}">Home <span class="visually-hidden">(current)</span></a>
+            <div class="collapse navbar-collapse justify-content-center"
+                 id="navbarNav">
+              <ul class="navbar-nav alt-font">
+                <li class="nav-item custom-item">
+                  <a href="#" class="nav-link">Inicio</a>
+                </li>
+                <li class="nav-item dropdown simple-dropdown">
+                  <a href="javascript:void(0);" class="nav-link">Calzado</a>
+                  <i class="fa-solid fa-angle-down dropdown-toggle"
+                     id="navbarDropdownMenuLink3"
+                     role="button"
+                     data-bs-toggle="dropdown"
+                     aria-expanded="false"></i>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3">
+                    <li class="dropdown">
+                      <li>
+                        <a href="#">Fútbol sala</a>
+                      </li>
+                      <li>
+                        <a href="#">Fútbol</a>
+                      </li>
+                    </li>
+                  </ul>
+                </li>
+                <li class="nav-item dropdown simple-dropdown">
+                  <a href="javascript:void(0);" class="nav-link">Ropa</a>
+                  <i class="fa-solid fa-angle-down dropdown-toggle"
+                     id="navbarDropdownMenuLink3"
+                     role="button"
+                     data-bs-toggle="dropdown"
+                     aria-expanded="false"></i>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3">
+                    <li class="dropdown">
+                      <li>
+                        <a href="#">Camisas</a>
+                      </li>
+                      <li>
+                        <a href="#">Petos</a>
+                      </li>
+                      <li>
+                        <a href="#">Petos</a>
+                      </li>
+                    </li>
+                  </ul>
+                </li>
+                <li class="nav-item dropdown simple-dropdown">
+                  <a href="javascript:void(0);" class="nav-link">Accesorios</a>
+                  <i class="fa-solid fa-angle-down dropdown-toggle"
+                     id="navbarDropdownMenuLink3"
+                     role="button"
+                     data-bs-toggle="dropdown"
+                     aria-expanded="false"></i>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3">
+                    <li class="dropdown">
+                      <li>
+                        <a href="#">Camisas</a>
+                      </li>
+                      <li>
+                        <a href="#">Petos</a>
+                      </li>
+                      <li>
+                        <a href="#">Petos</a>
+                      </li>
+                    </li>
+                  </ul>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'about' %}">About</a>
+                  <a href="#" class="nav-link">Promociones<span class="label bg-base-color text-white text-uppercase border-radius-26px">Top</span></a>
                 </li>
-                {% if request.user.is_authenticated %}
-                  <li class="nav-item">
-                    <a class="nav-link"
-                       href="{% url 'users:detail' request.user.username %}">{% translate "My Profile" %}</a>
-                  </li>
-                  <li class="nav-item">
-                    {# URL provided by django-allauth/account/urls.py #}
-                    <a class="nav-link" href="{% url 'account_logout' %}">{% translate "Sign Out" %}</a>
-                  </li>
-                {% else %}
-                  {% if ACCOUNT_ALLOW_REGISTRATION %}
-                    <li class="nav-item">
-                      {# URL provided by django-allauth/account/urls.py #}
-                      <a id="sign-up-link" class="nav-link" href="{% url 'account_signup' %}">{% translate "Sign Up" %}</a>
-                    </li>
-                  {% endif %}
-                  <li class="nav-item">
-                    {# URL provided by django-allauth/account/urls.py #}
-                    <a id="log-in-link" class="nav-link" href="{% url 'account_login' %}">{% translate "Sign In" %}</a>
-                  </li>
-                {% endif %}
               </ul>
             </div>
           </div>
-        </nav>
-      </div>
-      <div class="container">
-        {% if messages %}
-          {% for message in messages %}
-            <div class="alert alert-dismissible {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-              {{ message }}
-              <button type="button"
-                      class="btn-close"
-                      data-bs-dismiss="alert"
-                      aria-label="Close"></button>
+          <div class="col-auto ms-auto">
+            <div class="header-icon">
+              <div class="header-cart-icon icon">
+                <div class="header-cart dropdown">
+                  <a href="javascript:void(0);"><i class="fa fa-thin fa-bag-shopping" style="color: white"></i><span class="cart-count alt-font">2</span></a>
+                  <ul class="cart-item-list">
+                    <li class="cart-item align-items-center">
+                      <a href="javascript:void(0);" class="alt-font close">×</a>
+                      <div class="product-image">
+                        <a href="#">
+                          <img src="https://via.placeholder.com/600x700" class="cart-thumb" alt="" />
+                        </a>
+                      </div>
+                      <div class="product-detail alt-font fw-600">
+                        <a href="#">Table clock</a>
+                        <span class="item-ammount fw-500">1 x $23.00</span>
+                      </div>
+                    </li>
+                    <li class="cart-item align-items-center">
+                      <a href="javascript:void(0);" class="alt-font close">×</a>
+                      <div class="product-image">
+                        <a href="#">
+                          <img src="https://via.placeholder.com/600x700" class="cart-thumb" alt="" />
+                        </a>
+                      </div>
+                      <div class="product-detail alt-font fw-600">
+                        <a href="#">Ceramic mug</a>
+                        <span class="item-ammount fw-500">2 x $15.00</span>
+                      </div>
+                    </li>
+                    <li class="cart-total">
+                      <div class="alt-font mb-15px">
+                        <span class="w-50 fw-500">Subtotal:</span><span class="w-50 text-end fw-700">$199.99</span>
+                      </div>
+                      <a href="demo-decor-store-cart.html"
+                         class="btn btn-large btn-transparent-base-color border-color-extra-medium-gray btn-round-edge">View cart</a>
+                      <a href="#"
+                         class="btn btn-large btn-base-color btn-box-shadow btn-round-edge">Checkout</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
-          {% endfor %}
-        {% endif %}
-        {% block main %}
-          {% block content %}
-            <p>Use this document as a way to quick start any new project.</p>
-          {% endblock content %}
-        {% endblock main %}
+          </div>
+        </div>
+      </nav>
+    </header>
+    {% block content %}
+    {% endblock content %}
+    <footer class="background-custom">
+      <div class="container">
+        <div class="row justify-content-center">
+          <!-- start footer column -->
+          <div class="col-6 col-lg-3 last-paragraph-no-margin order-sm-1 md-mb-50px xs-mb-30px">
+            <span class="fs-16 alt-font fw-500 d-block text-white mb-5px">Ubicación</span>
+            <ul>
+              <li>Cra. 61 #77 sur 27, Poblado del Sur, La Estrella, Antioquia</li>
+              <li>Centro comercial venecia</li>
+              <li>Local 219</li>
+            </ul>
+            <div class="elements-social social-icon-style-02 mt-15px">
+              <ul class="small-icon light">
+                <li>
+                  <a class="facebook" href="https://www.facebook.com/" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+                </li>
+                <li>
+                  <a class="whatsapp" href="http://www.twitter.com" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+                </li>
+                <li>
+                  <a class="instagram" href="http://www.instagram.com" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- end footer column -->
+          <!-- start footer column -->
+          <div class="col-8 col-lg-2 col-sm-4 xs-mb-30px order-sm-3 order-lg-2">
+            <span class="fs-16 alt-font fw-500 d-block text-white mb-5px">Suscríbete</span>
+            <ul>
+              <li>
+                <a href="#">Mi cuenta</a>
+              </li>
+              <li>
+                <a href="#">Suscribirse</a>
+              </li>
+            </ul>
+          </div>
+          <!-- end footer column -->
+          <!-- start footer column -->
+          <div class="col-8 col-lg-2 col-sm-4 xs-mb-30px order-sm-3 order-lg-2">
+            <span class="fs-16 alt-font fw-500 d-block text-white mb-5px">Categories</span>
+            <ul>
+              <li>
+                <a href="#">Bed room</a>
+              </li>
+              <li>
+                <a href="#">Living room</a>
+              </li>
+              <li>
+                <a href="#">Lightning</a>
+              </li>
+              <li>
+                <a href="#">Fabrics sofa</a>
+              </li>
+            </ul>
+          </div>
+          <!-- end footer column -->
+          <!-- start footer column -->
+          <div class="col-8 col-lg-2 col-sm-4 xs-mb-30px order-sm-3 order-lg-2">
+            <span class="fs-16 alt-font fw-500 d-block text-white mb-5px">Information</span>
+            <ul>
+              <li>
+                <a href="#">About us</a>
+              </li>
+              <li>
+                <a href="#">Contact us</a>
+              </li>
+              <li>
+                <a href="#">FAQs</a>
+              </li>
+              <li>
+                <a href="#">Payment</a>
+              </li>
+            </ul>
+          </div>
+          <!-- end footer column -->
+        </div>
       </div>
-    {% endblock body %}
-    <!-- /container -->
-    {% block modal %}
-    {% endblock modal %}
-    {% block inline_javascript %}
-      {% comment %}
-    Script tags with only code, no src (defer by default). To run
-    with a "defer" so that you run inline code:
-    <script>
-      window.addEventListener('DOMContentLoaded', () => {
-        /* Run whatever you want */
+      <div class="border-top border-color-transparent-white-light pt-30px pb-30px">
+        <div class="container">
+          <div class="row align-items-center justify-content-center">
+            <div class="col-xl-8 last-paragraph-no-margin text-center text-xl-start lg-mt-20px order-3 order-xl-1">
+              <p class="fs-14 w-90 xl-w-100">&copy; 2025 Futsal para todos ❤️⚽</p>
+            </div>
+            <div class="col-6 col-xl-2 col-md-3 col-sm-5 text-center text-xl-start order-1 order-xl-2">
+              <span class="lh-26 alt-font d-block">Contactanos</span>
+              <a href="tel:12345678910" class="fs-16 text-white fw-500">+57 324 2006316</a>
+            </div>
+            <div class="col-6 col-xl-2 col-md-3 col-sm-5 text-center text-xl-start order-2 order-xl-3">
+              <span class="lh-26 alt-font d-block">PQRS</span>
+              <a href="mailto:info@domain.com" class="fs-16 text-white fw-500">info@domain.com</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- end footer -->
+    <!-- start cookie message -->
+    <div id="cookies-model"
+         class="cookie-message bg-dark-gray border-radius-8px">
+      <div class="cookie-description fs-14 text-white mb-20px lh-22">
+        We use cookies to enhance your browsing experience, serve personalized ads or content, and analyze our traffic. By clicking "Allow cookies" you consent to our use of cookies.
+      </div>
+      <div class="cookie-btn">
+        <a href="#"
+           class="btn btn-transparent-white border-1 border-color-transparent-white-light btn-very-small btn-switch-text btn-rounded w-100 mb-15px"
+           aria-label="btn">
+          <span>
+            <span class="btn-double-text" data-text="Cookie policy">Cookie policy</span>
+          </span>
+        </a>
+        <a href="#"
+           class="btn btn-white btn-very-small btn-switch-text btn-box-shadow accept_cookies_btn btn-rounded w-100"
+           data-accept-btn
+           aria-label="text">
+          <span>
+            <span class="btn-double-text" data-text="Allow cookies">Allow cookies</span>
+          </span>
+        </a>
+      </div>
+    </div>
+    <!-- end cookie message -->
+    <!-- start sticky elements -->
+    <div class="sticky-wrap d-none d-xl-inline-block z-index-1"
+         data-animation-delay="100"
+         data-shadow-animation="true">
+      <div class="elements-social social-icon-style-10">
+        <ul class="fs-15 fw-500">
+          <li class="me-30px">
+            <a class="twitter" href="http://www.twitter.com" target="_blank">
+              <i class="fa-brands fa-whatsapp me-10px"></i>
+              <span class="alt-font">Whatsapp</span>
+            </a>
+          </li>
+          <li class="me-30px">
+            <a class="facebook" href="https://www.facebook.com/" target="_blank">
+              <i class="fa-brands fa-facebook-f me-10px"></i>
+              <span class="alt-font">Facebook</span>
+            </a>
+          </li>
+          <li>
+            <a class="instagram" href="http://www.instagram.com" target="_blank">
+              <i class="fa-brands fa-instagram me-10px"></i>
+              <span class="alt-font">Instagram</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- end sticky elements -->
+    <!-- javascript libraries -->
+    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/vendors.min.js' %}"></script>
+    <!-- slider revolution core javaScript files -->
+    <script type="text/javascript"
+            src="{% static 'js/revolution/jquery.themepunch.tools.min.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'js/revolution/jquery.themepunch.revolution.js' %}"></script>
+    <!-- slider revolution extension scripts. -->
+    <script type="text/javascript"
+            src="{% static 'js/revolution/revolution.extension.actions.min.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'js/revolution/revolution.extension.carousel.min.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'js/revolution/revolution.extension.layeranimation.min.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'js/revolution/revolution.extension.navigation.min.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'js/revolution/revolution.extension.slideanims.min.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'js/revolution/revolution.extension.migration.min.js' %}"></script>
+    <!-- Slider Revolution add on files -->
+    <script type='text/javascript'
+            src="{% static 'js/revolution/revolution.addon.particles.min.js?ver=1.0.3' %}"></script>
+    <!-- Slider's main "init" script -->
+    <script type="text/javascript">
+      jQuery(document).ready(function() {
+        jQuery("#decor-store-slider").show().revolution({
+          sliderType: "standard",
+          jsFileLocation: "revolution/js/",
+          sliderLayout: "fullscreen",
+          delay: 4000,
+          navigation: {
+            arrows: {
+              enable: false
+            },
+            bullets: {
+              enable: false
+            }
+          },
+          autoHeight: "off",
+          lazyType: "none",
+          shadow: 0,
+          spinner: "off",
+          stopLoop: "off",
+          stopAfterLoops: -1,
+          stopAtSlide: -1,
+          shuffle: "off",
+          autoPlay: true
+        });
+      });
+
+
+      /* https://learn.jquery.com/using-jquery-core/document-ready/ */
+      jQuery(document).ready(function() {
+        /* initialize the slider based on the Slider's ID attribute from the wrapper above */
+        jQuery('#decor-store-slider').show().revolution({
+          sliderType: "standard",
+          /* sets the Slider's default timeline */
+          delay: 9000,
+          /* options are 'auto', 'fullwidth' or 'fullscreen' */
+          sliderLayout: 'fullscreen',
+          /* RESPECT ASPECT RATIO */
+          autoHeight: 'off',
+          /* options that disable autoplay */
+          stopLoop: "on",
+          stopAfterLoops: 0,
+          stopAtSlide: 1,
+          navigation: {
+            keyboardNavigation: "on",
+            keyboard_direction: "horizontal",
+            mouseScrollNavigation: "off",
+            mouseScrollReverse: "default",
+            onHoverStop: "off",
+            touch: {
+              touchenabled: "on",
+              touchOnDesktop: "on",
+              swipe_threshold: 75,
+              swipe_min_touches: 1,
+              swipe_direction: "horizontal",
+              drag_block_vertical: true
+            },
+            arrows: {
+
+              enable: false,
+              style: 'uranus',
+              rtl: false,
+              hide_onleave: false,
+              hide_onmobile: false,
+              hide_under: 0,
+              hide_over: 778,
+              hide_delay: 200,
+              hide_delay_mobile: 1200,
+              left: {
+                container: 'slider',
+                h_align: 'left',
+                v_align: 'center',
+                h_offset: 10,
+                v_offset: 10
+              },
+              right: {
+                container: 'slider',
+                h_align: 'right',
+                v_align: 'center',
+                h_offset: 10,
+                v_offset: 10
+              }
+
+            }
+
+          },
+          /* Lazy Load options are "all", "smart", "single" and "none" */
+          lazyType: "smart",
+          spinner: "spinner0",
+          /* DISABLE FORCE FULL-WIDTH */
+          fullScreenAlignForce: 'off',
+          hideThumbsOnMobile: 'off',
+          hideSliderAtLimit: 0,
+          hideCaptionAtLimit: 0,
+          hideAllCaptionAtLilmit: 0,
+          /* [DESKTOP, LAPTOP, TABLET, SMARTPHONE] */
+          responsiveLevels: [1240, 1024, 778, 480],
+          /* [DESKTOP, LAPTOP, TABLET, SMARTPHONE] */
+          gridwidth: [1220, 1024, 778, 480],
+          /* [DESKTOP, LAPTOP, TABLET, SMARTPHONE] */
+          gridheight: [900, 1000, 960, 720],
+          /* [DESKTOP, LAPTOP, TABLET, SMARTPHONE] */
+          visibilityLevels: [1240, 1024, 1024, 480],
+          fallbacks: {
+            simplifyAll: 'on',
+            nextSlideOnWindowFocus: 'off',
+            disableFocusListener: false
+          },
+        });
       });
     </script>
-      {% endcomment %}
-    {% endblock inline_javascript %}
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
   </body>
 </html>
