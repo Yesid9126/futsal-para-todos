@@ -15,9 +15,9 @@ from django.utils.translation import gettext_lazy as _
 from fpt.users.forms import UserAdminChangeForm
 from fpt.users.models import User
 from fpt.users.tests.factories import UserFactory
-from fpt.users.views import UserRedirectView
-from fpt.users.views import UserUpdateView
-from fpt.users.views import user_detail_view
+from fpt.users.views.landing import UserRedirectView
+from fpt.users.views.landing import UserUpdateView
+from fpt.users.views.landing import user_detail_view
 
 pytestmark = pytest.mark.django_db
 
