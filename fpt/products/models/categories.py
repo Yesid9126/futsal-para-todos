@@ -18,7 +18,11 @@ class SubCategory(FutsalModel):
         "Descripción de la subcategoría", blank=True, null=True
     )
     category = models.ForeignKey(
-        "Category", on_delete=models.SET_NULL, blank=True, null=True
+        "Category",
+        on_delete=models.SET_NULL,
+        related_name="subcategory",
+        blank=True,
+        null=True,
     )
 
     class Meta:

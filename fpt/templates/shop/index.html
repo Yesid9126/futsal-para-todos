@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% load static %}
+{% load humanize %}
 
 {% block title %}Futsal para todos{% endblock %}
 {% block content %}
@@ -16,7 +17,7 @@
              data-version="5.4.5">
           <!-- begin slides list -->
           <ul>
-            <!-- minimum slide structure -->
+            <!-- slide futbol sala -->
             <li data-index="rs-73"
                 data-transition="fade"
                 data-slotamount="default"
@@ -25,7 +26,6 @@
                 data-easein="default"
                 data-easeout="default"
                 data-masterspeed="300"
-                data-thumb="http://works.themepunch.com/revolution_5_3/wp-content/"
                 data-rotate="0"
                 data-saveperformance="off"
                 data-title="Slide"
@@ -287,7 +287,7 @@
               </div>
               <!-- end tooltip layer -->
             </li>
-            <!-- minimum slide structure -->
+            <!-- slide futbol -->
             <li data-index="rs-72"
                 data-transition="fade"
                 data-slotamount="default"
@@ -558,7 +558,7 @@
               </div>
               <!-- end tooltip layer -->
             </li>
-            <!-- minimum slide structure -->
+            <!-- slide accesorios -->
             <li data-index="rs-74"
                 data-transition="fade"
                 data-slotamount="default"
@@ -856,9 +856,11 @@
             <li class="nav-item">
               <a data-bs-toggle="tab" href="#tab_five1" class="nav-link active">Los más vendidos<span class="tab-border bg-dark-gray h-2px"></span></a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" data-bs-toggle="tab" href="#tab_five2">Recién llegados<span class="tab-border bg-dark-gray h-2px"></span></a>
-            </li>
+            {% if newcomers %}
+              <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#tab_five2">Recién llegados<span class="tab-border bg-dark-gray h-2px"></span></a>
+              </li>
+            {% endif %}
           </ul>
           <div class="tab-content">
             <!-- start tab content -->
@@ -868,583 +870,97 @@
                   <ul class="shop-boxed shop-wrapper grid grid-4col xxl-grid-5col xl-grid-4col lg-grid-3col md-grid-2col sm-grid-2col xs-grid-1col gutter-large text-center"
                       data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 600, "delay":150, "staggervalue": 150, "easing": "easeOutQuad" }'>
                     <li class="grid-sizer"></li>
-                    <!-- start shop item -->
-                    <li class="grid-item">
-                      <div class="shop-box pb-25px">
-                        <div class="shop-image">
-                          <a href="demo-decor-store-single-product.html">
-                            <img src="{% static 'images/tenis1.png' %}" alt="" />
-                            <div class="product-overlay bg-gradient-extra-midium-gray-transparent"></div>
-                          </a>
-                          <div class="shop-hover d-flex justify-content-center">
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Me gusta"><i class="fa fa-heart" aria-hidden="true"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Añadir al carrito"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Ver detalle"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                    {% for product in best_sellers %}
+                      <li class="grid-item">
+                        <div class="shop-box pb-25px">
+                          <div class="shop-image">
+                            <a href="#">
+                              <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}" class="product-image-fixed" />
+                              <div class="product-overlay bg-gradient-extra-midium-gray-transparent"></div>
+                            </a>
+                            <div class="shop-hover d-flex justify-content-center">
+                              <a href="#"
+                                class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="top"
+                                title="Me gusta"><i class="fa fa-heart" aria-hidden="true"></i></a>
+                              <a href="#"
+                                class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="top"
+                                title="Añadir al carrito"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                              <a href="#"
+                                class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="top"
+                                title="Ver detalle"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                            </div>
+                          </div>
+                          <div class="shop-footer text-center pt-20px">
+                            <a href="demo-decor-store-single-product.html"
+                              class="text-dark-gray fs-17 alt-font fw-600">{{ product.name }}</a>
+                            <div class="fw-500 fs-15 lh-normal">
+                              {% if product.percentage_discount > 0 %}
+                                <del>${{ product.price|intcomma }}</del> ${{ product.discounted_price|intcomma }}
+                              {% else %}
+                                ${{ product.price|intcomma }}
+                              {% endif %}
+                            </div>
                           </div>
                         </div>
-                        <div class="shop-footer text-center pt-20px">
-                          <a href="demo-decor-store-single-product.html"
-                             class="text-dark-gray fs-17 alt-font fw-600">Table clock</a>
-                          <div class="fw-500 fs-15 lh-normal">
-                            <del>$30.00</del>$23.00
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                    <!-- end shop item -->
-                    <!-- start shop item -->
-                    <li class="grid-item">
-                      <div class="shop-box pb-25px">
-                        <div class="shop-image">
-                          <a href="demo-decor-store-single-product.html">
-                            <img src="{% static 'images/tenis1.png' %}" alt="" />
-                            <div class="product-overlay bg-gradient-extra-midium-gray-transparent"></div>
-                          </a>
-                          <div class="shop-hover d-flex justify-content-center">
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Add to wishlist"><i class="fa fa-heart" aria-hidden="true"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Add to cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Quick shop"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                          </div>
-                        </div>
-                        <div class="shop-footer text-center pt-20px">
-                          <a href="demo-decor-store-single-product.html"
-                             class="text-dark-gray fs-17 alt-font fw-600">Table clock</a>
-                          <div class="fw-500 fs-15 lh-normal">
-                            <del>$30.00</del>$23.00
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                    <!-- end shop item -->
-                    <!-- start shop item -->
-                    <li class="grid-item">
-                      <div class="shop-box pb-25px">
-                        <div class="shop-image">
-                          <a href="demo-decor-store-single-product.html">
-                            <img src="{% static 'images/tenis1.png' %}" alt="" />
-                            <div class="product-overlay bg-gradient-extra-midium-gray-transparent"></div>
-                          </a>
-                          <div class="shop-hover d-flex justify-content-center">
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Add to wishlist"><i class="fa fa-heart" aria-hidden="true"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Add to cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Quick shop"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                          </div>
-                        </div>
-                        <div class="shop-footer text-center pt-20px">
-                          <a href="demo-decor-store-single-product.html"
-                             class="text-dark-gray fs-17 alt-font fw-600">Table clock</a>
-                          <div class="fw-500 fs-15 lh-normal">
-                            <del>$30.00</del>$23.00
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                    <!-- end shop item -->
-                    <!-- start shop item -->
-                    <li class="grid-item">
-                      <div class="shop-box pb-25px">
-                        <div class="shop-image">
-                          <a href="demo-decor-store-single-product.html">
-                            <img src="{% static 'images/tenis1.png' %}" alt="" />
-                            <div class="product-overlay bg-gradient-extra-midium-gray-transparent"></div>
-                          </a>
-                          <div class="shop-hover d-flex justify-content-center">
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Add to wishlist"><i class="fa fa-heart" aria-hidden="true"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Add to cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Quick shop"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                          </div>
-                        </div>
-                        <div class="shop-footer text-center pt-20px">
-                          <a href="demo-decor-store-single-product.html"
-                             class="text-dark-gray fs-17 alt-font fw-600">Table clock</a>
-                          <div class="fw-500 fs-15 lh-normal">
-                            <del>$30.00</del>$23.00
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                    <!-- end shop item -->
-                    <!-- start shop item -->
-                    <li class="grid-item">
-                      <div class="shop-box pb-25px">
-                        <div class="shop-image">
-                          <a href="demo-decor-store-single-product.html">
-                            <img src="{% static 'images/tenis1.png' %}" alt="" />
-                            <div class="product-overlay bg-gradient-extra-midium-gray-transparent"></div>
-                          </a>
-                          <div class="shop-hover d-flex justify-content-center">
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Add to wishlist"><i class="fa fa-heart" aria-hidden="true"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Add to cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Quick shop"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                          </div>
-                        </div>
-                        <div class="shop-footer text-center pt-20px">
-                          <a href="demo-decor-store-single-product.html"
-                             class="text-dark-gray fs-17 alt-font fw-600">Table clock</a>
-                          <div class="fw-500 fs-15 lh-normal">
-                            <del>$30.00</del>$23.00
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                    <!-- end shop item -->
-                    <!-- start shop item -->
-                    <li class="grid-item">
-                      <div class="shop-box pb-25px">
-                        <div class="shop-image">
-                          <a href="demo-decor-store-single-product.html">
-                            <img src="{% static 'images/tenis1.png' %}" alt="" />
-                            <div class="product-overlay bg-gradient-extra-midium-gray-transparent"></div>
-                          </a>
-                          <div class="shop-hover d-flex justify-content-center">
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Add to wishlist"><i class="fa fa-heart" aria-hidden="true"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Add to cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Quick shop"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                          </div>
-                        </div>
-                        <div class="shop-footer text-center pt-20px">
-                          <a href="demo-decor-store-single-product.html"
-                             class="text-dark-gray fs-17 alt-font fw-600">Table clock</a>
-                          <div class="fw-500 fs-15 lh-normal">
-                            <del>$30.00</del>$23.00
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                    <!-- end shop item -->
-                    <!-- start shop item -->
-                    <li class="grid-item">
-                      <div class="shop-box pb-25px">
-                        <div class="shop-image">
-                          <a href="demo-decor-store-single-product.html">
-                            <img src="{% static 'images/tenis1.png' %}" alt="" />
-                            <div class="product-overlay bg-gradient-extra-midium-gray-transparent"></div>
-                          </a>
-                          <div class="shop-hover d-flex justify-content-center">
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Add to wishlist"><i class="fa fa-heart" aria-hidden="true"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Add to cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Quick shop"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                          </div>
-                        </div>
-                        <div class="shop-footer text-center pt-20px">
-                          <a href="demo-decor-store-single-product.html"
-                             class="text-dark-gray fs-17 alt-font fw-600">Table clock</a>
-                          <div class="fw-500 fs-15 lh-normal">
-                            <del>$30.00</del>$23.00
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                    <!-- end shop item -->
-                    <!-- start shop item -->
-                    <li class="grid-item">
-                      <div class="shop-box pb-25px">
-                        <div class="shop-image">
-                          <a href="demo-decor-store-single-product.html">
-                            <img src="{% static 'images/tenis1.png' %}" alt="" />
-                            <div class="product-overlay bg-gradient-extra-midium-gray-transparent"></div>
-                          </a>
-                          <div class="shop-hover d-flex justify-content-center">
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Add to wishlist"><i class="fa fa-heart" aria-hidden="true"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Add to cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Quick shop"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                          </div>
-                        </div>
-                        <div class="shop-footer text-center pt-20px">
-                          <a href="demo-decor-store-single-product.html"
-                             class="text-dark-gray fs-17 alt-font fw-600">Table clock</a>
-                          <div class="fw-500 fs-15 lh-normal">
-                            <del>$30.00</del>$23.00
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                    <!-- end shop item -->
+                      </li>
+                    {% endfor %}
                   </ul>
                 </div>
               </div>
             </div>
             <!-- end tab content -->
             <!-- start tab content -->
-            <div class="tab-pane fade in" id="tab_five2">
-              <div class="row">
-                <div class="col-12 filter-content">
-                  <ul class="shop-boxed shop-wrapper grid grid-4col xxl-grid-5col xl-grid-4col lg-grid-3col md-grid-2col sm-grid-2col xs-grid-1col gutter-large text-center">
-                    <li class="grid-sizer"></li>
-                    <!-- start shop item -->
-                    <li class="grid-item">
-                      <div class="shop-box pb-25px">
-                        <div class="shop-image">
-                          <a href="demo-decor-store-single-product.html">
-                            <img src="https://via.placeholder.com/600x700" alt="" />
-                            <div class="product-overlay bg-gradient-extra-midium-gray-transparent"></div>
-                          </a>
-                          <div class="shop-hover d-flex justify-content-center">
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Add to wishlist"><i class="feather icon-feather-heart fs-15"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Add to cart"><i class="feather icon-feather-shopping-bag fs-15"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Quick shop"><i class="feather icon-feather-eye fs-15"></i></a>
+            {% if newcomers %}
+              <div class="tab-pane fade in" id="tab_five2">
+                <div class="row">
+                  <div class="col-12 filter-content">
+                    <ul class="shop-boxed shop-wrapper grid grid-4col xxl-grid-5col xl-grid-4col lg-grid-3col md-grid-2col sm-grid-2col xs-grid-1col gutter-large text-center">
+                      <li class="grid-sizer"></li>
+                      {% for newcomerce in newcomers %}
+                        <li class="grid-item">
+                          <div class="shop-box pb-25px">
+                            <div class="shop-image">
+                              <a href="demo-decor-store-single-product.html">
+                                <img src="{{ newcomerce.images.first.image.url }}" alt="{{ newcomerce.name }}" class="product-image-fixed" />
+                                <div class="product-overlay bg-gradient-extra-midium-gray-transparent"></div>
+                              </a>
+                              <div class="shop-hover d-flex justify-content-center">
+                                <a href="#"
+                                  class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
+                                  data-bs-toggle="tooltip"
+                                  data-bs-placement="top"
+                                  title="Add to wishlist"><i class="feather icon-feather-heart fs-15"></i></a>
+                                <a href="#"
+                                  class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
+                                  data-bs-toggle="tooltip"
+                                  data-bs-placement="top"
+                                  title="Add to cart"><i class="feather icon-feather-shopping-bag fs-15"></i></a>
+                                <a href="#"
+                                  class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
+                                  data-bs-toggle="tooltip"
+                                  data-bs-placement="top"
+                                  title="Quick shop"><i class="feather icon-feather-eye fs-15"></i></a>
+                              </div>
+                            </div>
+                            <div class="shop-footer text-center pt-20px">
+                              <a href="demo-decor-store-single-product.html"
+                                class="text-dark-gray fs-17 alt-font fw-600">{{ newcomerce.name }}</a>
+                              <div class="fw-500 fs-15 lh-normal">${{ newcomerce.price }}</div>
+                            </div>
                           </div>
-                        </div>
-                        <div class="shop-footer text-center pt-20px">
-                          <a href="demo-decor-store-single-product.html"
-                             class="text-dark-gray fs-17 alt-font fw-600">Ceramic pot</a>
-                          <div class="fw-500 fs-15 lh-normal">$23.00</div>
-                        </div>
-                      </div>
-                    </li>
-                    <!-- end shop item -->
-                    <!-- start shop item -->
-                    <li class="grid-item">
-                      <div class="shop-box pb-25px">
-                        <div class="shop-image">
-                          <a href="demo-decor-store-single-product.html">
-                            <img src="https://via.placeholder.com/600x700" alt="" />
-                            <div class="product-overlay bg-gradient-extra-midium-gray-transparent"></div>
-                          </a>
-                          <div class="shop-hover d-flex justify-content-center">
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Add to wishlist"><i class="feather icon-feather-heart fs-15"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Add to cart"><i class="feather icon-feather-shopping-bag fs-15"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Quick shop"><i class="feather icon-feather-eye fs-15"></i></a>
-                          </div>
-                        </div>
-                        <div class="shop-footer text-center pt-20px">
-                          <a href="demo-decor-store-single-product.html"
-                             class="text-dark-gray fs-17 alt-font fw-600">Ceramic plate</a>
-                          <div class="fw-500 fs-15 lh-normal">$15.00</div>
-                        </div>
-                      </div>
-                    </li>
-                    <!-- end shop item -->
-                    <!-- start shop item -->
-                    <li class="grid-item">
-                      <div class="shop-box pb-25px">
-                        <div class="shop-image">
-                          <a href="demo-decor-store-single-product.html">
-                            <img src="https://via.placeholder.com/600x700" alt="" />
-                            <span class="lable new">New</span>
-                            <div class="product-overlay bg-gradient-extra-midium-gray-transparent"></div>
-                          </a>
-                          <div class="shop-hover d-flex justify-content-center">
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Add to wishlist"><i class="feather icon-feather-heart fs-15"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Add to cart"><i class="feather icon-feather-shopping-bag fs-15"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Quick shop"><i class="feather icon-feather-eye fs-15"></i></a>
-                          </div>
-                        </div>
-                        <div class="shop-footer text-center pt-20px">
-                          <a href="demo-decor-store-single-product.html"
-                             class="text-dark-gray fs-17 alt-font fw-600">Ceramic container</a>
-                          <div class="fw-500 fs-15 lh-normal">$35.00</div>
-                        </div>
-                      </div>
-                    </li>
-                    <!-- end shop item -->
-                    <!-- start shop item -->
-                    <li class="grid-item">
-                      <div class="shop-box pb-25px">
-                        <div class="shop-image">
-                          <a href="demo-decor-store-single-product.html">
-                            <img src="https://via.placeholder.com/600x700" alt="" />
-                            <div class="product-overlay bg-gradient-extra-midium-gray-transparent"></div>
-                          </a>
-                          <div class="shop-hover d-flex justify-content-center">
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Add to wishlist"><i class="feather icon-feather-heart fs-15"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Add to cart"><i class="feather icon-feather-shopping-bag fs-15"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Quick shop"><i class="feather icon-feather-eye fs-15"></i></a>
-                          </div>
-                        </div>
-                        <div class="shop-footer text-center pt-20px">
-                          <a href="demo-decor-store-single-product.html"
-                             class="text-dark-gray fs-17 alt-font fw-600">Design wall clock</a>
-                          <div class="fw-500 fs-15 lh-normal">$19.00</div>
-                        </div>
-                      </div>
-                    </li>
-                    <!-- end shop item -->
-                    <!-- start shop item -->
-                    <li class="grid-item">
-                      <div class="shop-box pb-25px">
-                        <div class="shop-image">
-                          <a href="demo-decor-store-single-product.html">
-                            <img src="https://via.placeholder.com/600x700" alt="" />
-                            <div class="product-overlay bg-gradient-extra-midium-gray-transparent"></div>
-                          </a>
-                          <div class="shop-hover d-flex justify-content-center">
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Add to wishlist"><i class="feather icon-feather-heart fs-15"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Add to cart"><i class="feather icon-feather-shopping-bag fs-15"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Quick shop"><i class="feather icon-feather-eye fs-15"></i></a>
-                          </div>
-                        </div>
-                        <div class="shop-footer text-center pt-20px">
-                          <a href="demo-decor-store-single-product.html"
-                             class="text-dark-gray fs-17 alt-font fw-600">Table clock</a>
-                          <div class="fw-500 fs-15 lh-normal">$23.00</div>
-                        </div>
-                      </div>
-                    </li>
-                    <!-- end shop item -->
-                    <!-- start shop item -->
-                    <li class="grid-item">
-                      <div class="shop-box pb-25px">
-                        <div class="shop-image">
-                          <a href="demo-decor-store-single-product.html">
-                            <img src="https://via.placeholder.com/600x700" alt="" />
-                            <span class="lable new">New</span>
-                            <div class="product-overlay bg-gradient-extra-midium-gray-transparent"></div>
-                          </a>
-                          <div class="shop-hover d-flex justify-content-center">
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Add to wishlist"><i class="feather icon-feather-heart fs-15"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Add to cart"><i class="feather icon-feather-shopping-bag fs-15"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Quick shop"><i class="feather icon-feather-eye fs-15"></i></a>
-                          </div>
-                        </div>
-                        <div class="shop-footer text-center pt-20px">
-                          <a href="demo-decor-store-single-product.html"
-                             class="text-dark-gray fs-17 alt-font fw-600">Wood stool</a>
-                          <div class="fw-500 fs-15 lh-normal">$54.00</div>
-                        </div>
-                      </div>
-                    </li>
-                    <!-- end shop item -->
-                    <!-- start shop item -->
-                    <li class="grid-item">
-                      <div class="shop-box pb-25px">
-                        <div class="shop-image">
-                          <a href="demo-decor-store-single-product.html">
-                            <img src="https://via.placeholder.com/600x700" alt="" />
-                            <div class="product-overlay bg-gradient-extra-midium-gray-transparent"></div>
-                          </a>
-                          <div class="shop-hover d-flex justify-content-center">
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Add to wishlist"><i class="feather icon-feather-heart fs-15"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Add to cart"><i class="feather icon-feather-shopping-bag fs-15"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Quick shop"><i class="feather icon-feather-eye fs-15"></i></a>
-                          </div>
-                        </div>
-                        <div class="shop-footer text-center pt-20px">
-                          <a href="demo-decor-store-single-product.html"
-                             class="text-dark-gray fs-17 alt-font fw-600">Ceramic mug</a>
-                          <div class="fw-500 fs-15 lh-normal">$15.00</div>
-                        </div>
-                      </div>
-                    </li>
-                    <!-- end shop item -->
-                    <!-- start shop item -->
-                    <li class="grid-item">
-                      <div class="shop-box pb-25px">
-                        <div class="shop-image">
-                          <a href="demo-decor-store-single-product.html">
-                            <img src="https://via.placeholder.com/600x700" alt="" />
-                            <div class="product-overlay bg-gradient-extra-midium-gray-transparent"></div>
-                          </a>
-                          <div class="shop-hover d-flex justify-content-center">
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Add to wishlist"><i class="feather icon-feather-heart fs-15"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Add to cart"><i class="feather icon-feather-shopping-bag fs-15"></i></a>
-                            <a href="#"
-                               class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="top"
-                               title="Quick shop"><i class="feather icon-feather-eye fs-15"></i></a>
-                          </div>
-                        </div>
-                        <div class="shop-footer text-center pt-20px">
-                          <a href="demo-decor-store-single-product.html"
-                             class="text-dark-gray fs-17 alt-font fw-600">Decorative plants</a>
-                          <div class="fw-500 fs-15 lh-normal">$35.00</div>
-                        </div>
-                      </div>
-                    </li>
-                    <!-- end shop item -->
-                  </ul>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
                 </div>
               </div>
-            </div>
+            {% endif %}
             <!-- end tab content -->
           </div>
         </div>
@@ -1465,38 +981,27 @@
             <!-- start client item -->
             <div class="swiper-slide">
               <h2 class="fs-50 text-dark-gray alt-font fw-700 ls-minus-1px">
-                <span class="visually-hidden">Promoción:</span>
                 <span class="w-15px h-15px border border-2 border-radius-100 border-color-medium-gray d-inline-block align-middle ms-50px me-50px"></span>
-                Paga a crédito
+                Locos x el futsal
               </h2>
             </div>
             <!-- end client item -->
             <div class="swiper-slide">
               <h2 class="fs-50 text-dark-gray alt-font fw-700 ls-minus-1px">
-                <span class="visually-hidden">Promoción:</span>
                 <span class="w-15px h-15px border border-2 border-radius-100 border-color-medium-gray d-inline-block align-middle ms-50px me-50px"></span>
                 Suscríbete y obtén 20% dcto
               </h2>
             </div>
             <div class="swiper-slide">
               <h2 class="fs-50 text-dark-gray alt-font fw-700 ls-minus-1px">
-                <span class="visually-hidden">Mensaje:</span>
                 <span class="w-15px h-15px border border-2 border-radius-100 border-color-medium-gray d-inline-block align-middle ms-50px me-50px"></span>
                 Futsal para todos
               </h2>
             </div>
             <div class="swiper-slide">
               <h2 class="fs-50 text-dark-gray alt-font fw-700 ls-minus-1px">
-                <span class="visually-hidden">Mensaje:</span>
                 <span class="w-15px h-15px border border-2 border-radius-100 border-color-medium-gray d-inline-block align-middle ms-50px me-50px"></span>
                 Consintiendo los micreros
-              </h2>
-            </div>
-            <div class="swiper-slide">
-              <h2 class="fs-50 text-dark-gray alt-font fw-700 ls-minus-1px">
-                <span class="visually-hidden">Mensaje:</span>
-                <span class="w-15px h-15px border border-2 border-radius-100 border-color-medium-gray d-inline-block align-middle ms-50px me-50px"></span>
-                Locos x el futsal
               </h2>
             </div>
             <div class="swiper-slide">
@@ -1521,7 +1026,7 @@
                   <h1 class="alt-font fw-400 text-dark-gray mb-40px lg-mb-35px xs-mb-25px ls-minus-1px">
                     Ropa <span class="fw-700">accesorios</span>
                   </h1>
-                  <a href="demo-decor-store-shop.html"
+                  <a href="#"
                      class="btn btn-dark-gray btn-extra-large btn-switch-text btn-round-edge btn-box-shadow">
                     <span>
                       <span class="btn-double-text" data-text="Explore category">Ver más</span>
@@ -1534,57 +1039,30 @@
                 <div class="swiper position-relative h-100"
                      data-slider-options='{ "slidesPerView": 1, "loop": true, "allowTouchMove": true, "autoplay": { "delay": 3000, "disableOnInteraction": false }, "navigation": { "nextEl": ".slider-one-slide-next-1", "prevEl": ".slider-one-slide-prev-1" }, "effect": "fade" }'>
                   <div class="swiper-wrapper">
-                    <!-- start text slider item -->
-                    <div class="swiper-slide cover-background h-100 text-center"
-                         style="background-image: url(images/demo-decor-store-product-slider-bg-img.jpg)">
-                      <a href="demo-decor-store-single-product.html">
-                        <img src="{% static 'images/camisa1.png' %}" alt="" />
-                      </a>
-                      <div class="position-absolute bottom-70px xs-bottom-25px w-100 left-0 text-center ls-minus-05px">
-                        <a href="demo-decor-store-single-product.html"
-                           class="text-dark-gray alt-font d-inline-block fs-20 fw-600">Wooden cabinet</a>
-                        <div class="d-block">
-                          <div class="d-inline-block align-middle fs-18 fw-600 text-dark-gray">
-                            <del class="me-10px">$50.00</del>$23.00
+                    {% for accessorie in accessories %}
+                      <!-- start text slider item -->
+                      <div class="swiper-slide cover-background h-100 text-center">
+                        <a href="demo-decor-store-single-product.html">
+                          <img src="{{ accessorie.images.first.image.url }}" alt="{{ accessorie.name }}" class="product-image-fixed-accessories" />
+                        </a>
+                        <div class="position-absolute bottom-70px xs-bottom-25px w-100 left-0 text-center ls-minus-05px">
+                          <a href="demo-decor-store-single-product.html"
+                            class="text-dark-gray alt-font d-inline-block fs-20 fw-600">{{ accessorie.name }}</a>
+                          <div class="d-block">
+                            <div class="d-inline-block align-middle fs-18 fw-600 text-dark-gray">
+                              {% if accessorie.percentage_discount > 0 %}
+                                <del>${{ accessorie.price|intcomma }}</del> ${{ accessorie.discounted_price|intcomma }}
+                              {% else %}
+                                ${{ accessorie.price|intcomma }}
+                              {% endif %}
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <!-- end text slider item -->
-                    <!-- start text slider item -->
-                    <div class="swiper-slide cover-background h-100 text-center"
-                         style="background-image: url(images/demo-decor-store-product-slider-bg-img.jpg)">
-                      <a href="demo-decor-store-single-product.html">
-                        <img src="{% static 'images/camisa2.png' %}" alt="" />
-                      </a>
-                      <div class="position-absolute bottom-70px xs-bottom-25px w-100 left-0 text-center ls-minus-05px">
-                        <a href="demo-decor-store-single-product.html"
-                           class="text-dark-gray alt-font fs-20 fw-600">Modern chair</a>
-                        <div class="d-block">
-                          <div class="d-inline-block align-middle fs-18 fw-600 text-dark-gray">
-                            <del class="me-10px">$40.00</del>$18.00
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- end text slider item -->
-                    <!-- start text slider item -->
-                    <div class="swiper-slide cover-background h-100 text-center"
-                         style="background-image: url(images/demo-decor-store-product-slider-bg-img.jpg)">
-                      <a href="demo-decor-store-single-product.html">
-                        <img src="https://via.placeholder.com/640x640" alt="" />
-                      </a>
-                      <div class="position-absolute bottom-70px xs-bottom-25px w-100 left-0 text-center ls-minus-05px">
-                        <a href="demo-decor-store-single-product.html"
-                           class="text-dark-gray alt-font fs-20 fw-600">Classic stools</a>
-                        <div class="d-block">
-                          <div class="d-inline-block align-middle fs-18 fw-600 text-dark-gray">
-                            <del class="me-10px">$56.00</del>$24.00
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- end text slider item -->
+                    {% endfor%}
+
+
+
                   </div>
                   <!-- start slider navigation -->
                   <div class="slider-one-slide-prev-1 swiper-button-prev slider-navigation-style-06">
@@ -1732,4 +1210,4 @@
         </section>
         <!-- end section -->
         <!-- start footer -->
-      {% endblock %}
+{% endblock %}
