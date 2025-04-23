@@ -17,7 +17,7 @@
             </div>
             <div class="col-12 breadcrumb breadcrumb-style-01 d-flex justify-content-center">
                 <ul>
-                    <li><a href="demo-decor-store.html">Inicio</a></li> 
+                    <li><a href="demo-decor-store.html">Inicio</a></li>
                     <li>tienda</li>
                 </ul>
             </div>
@@ -28,7 +28,7 @@
 <!-- start section -->
 <section class="ps-6 pe-6 lg-ps-3 lg-pe-3 sm-ps-0 sm-pe-0">
     <div class="container-fluid">
-        <div class="row flex-row-reverse"> 
+        <div class="row flex-row-reverse">
             <div class="col-xxl-10 col-lg-9 ps-5 md-ps-15px md-mb-60px">
                 <div class="toolbar-wrapper border-bottom border-color-extra-medium-gray d-flex flex-column flex-sm-row align-items-center w-100 mb-40px md-mb-30px pb-15px" data-anime='{ "translateY": [0, 0], "opacity": [0,1], "duration": 600, "delay":50, "staggervalue": 150, "easing": "easeOutQuad" }'>
                     <div class="xs-mb-10px">
@@ -117,7 +117,7 @@
                                     </li>
                                 {% endif %}
                             {% endfor %}
-                            
+
                             {% if products.has_next %}
                                 <li class="page-item">
                                     <a class="page-link" href="?page={{ products.next_page_number }}">
@@ -153,7 +153,7 @@
                     <span class="alt-font fw-600 fs-17 text-dark-gray d-block mb-10px">Filtrar por marca</span>
                     <ul class="fs-15 shop-filter fabric-filter">
                         {% for brand in brands %}
-                            <li><a href="{{ base_url }}?brand={{ brand.brand__name|urlencode }}"><span class="product-cb product-fabric-cb"></span>{{brand.brand__name}}</a><span class="item-qty">{{ brand.total_products_by_brand }}</span></li> 
+                            <li><a href="{{ base_url }}?brand={{ brand.brand__name|urlencode }}"><span class="product-cb product-fabric-cb"></span>{{brand.brand__name}}</a><span class="item-qty">{{ brand.total_products_by_brand }}</span></li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -164,7 +164,7 @@
                         <li><a href="#"><span class="product-cb product-category-cb"></span>$25 to $50</a><span class="item-qty">05</span></li>
                         <li><a href="#"><span class="product-cb product-category-cb"></span>$50 to $100</a><span class="item-qty">25</span></li>
                         <li><a href="#"><span class="product-cb product-category-cb"></span>$100 to $200</a><span class="item-qty">18</span></li>
-                        <li><a href="#"><span class="product-cb product-category-cb"></span>$200 & Above</a><span class="item-qty">36</span></li>  
+                        <li><a href="#"><span class="product-cb product-category-cb"></span>$200 & Above</a><span class="item-qty">36</span></li>
                     </ul>
                 </div>
                 <div class="mb-30px">
@@ -175,13 +175,13 @@
                             <div class="slider-one-slide-prev-1 swiper-button-prev slider-navigation-style-08 me-5px"><i class="fa-solid fa-arrow-left text-dark-gray"></i></div>
                             <div class="slider-one-slide-next-1 swiper-button-next slider-navigation-style-08 ms-5px"><i class="fa-solid fa-arrow-right text-dark-gray"></i></div>
                             <!-- end slider navigation -->
-                        </div> 
+                        </div>
                     </div>
                     <div class="swiper slider-one-slide" data-slider-options='{ "slidesPerView": 1, "loop": true, "autoplay": { "delay": 5000, "disableOnInteraction": false }, "navigation": { "nextEl": ".slider-one-slide-next-1", "prevEl": ".slider-one-slide-prev-1" }, "keyboard": { "enabled": true, "onlyInViewport": true }, "effect": "slide" }'>
                         <div class="swiper-wrapper">
                             <!-- start text slider item -->
                             <div class="swiper-slide">
-                                <div class="shop-filter new-arribals"> 
+                                <div class="shop-filter new-arribals">
                                     <div class="d-flex align-items-center mb-20px">
                                         <figure class="mb-0">
                                             <a href="demo-decor-store-single-product.html">
@@ -220,7 +220,7 @@
                             <!-- end text slider item -->
                             <!-- start text slider item -->
                             <div class="swiper-slide">
-                                <div class="shop-filter new-arribals"> 
+                                <div class="shop-filter new-arribals">
                                     <div class="d-flex align-items-center mb-20px">
                                         <figure class="mb-0">
                                             <a href="demo-decor-store-single-product.html">
@@ -258,8 +258,8 @@
                             </div>
                             <!-- end text slider item -->
                         </div>
-                        <!-- start slider navigation --> 
-                    </div> 
+                        <!-- start slider navigation -->
+                    </div>
                 </div>
             </div>
         </div>
