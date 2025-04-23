@@ -120,8 +120,12 @@ h4 {
     font-size: 10px;
     font-weight: 600;
 }
-.pagination-style-01 .page-item.active .page-link, .pagination-style-01 .page-item .page-link:hover {
+.pagination-style-01 .page-item.active .page-link {
     background: var(--dark-gray);
+    color: var(--white);
+}
+.pagination-style-01 .page-item:not(.active) .page-link:not(:has(i)):hover {
+    background: #ed7878;
     color: var(--white);
 }
 .pagination-style-01 .page-item:first-child .page-link, .pagination-style-01 .page-item:last-child .page-link {
@@ -322,4 +326,14 @@ footer ul li {
     .right-image-layer {width: 300px!important; min-width: 300px!important; max-width: 300px!important;}
     .rev_row_wrap {width: 60% !important; left: 20% !important; padding-top: 0px!important;}
     .left-column {min-height: 300px !important; max-height: 300px !important;height: 300px !important;}
+}
+.product-image-fixed {
+    width: 270px;
+    height: 270px;
+    object-fit: cover;
+}
+.product-image-fixed-accessories {
+    width: 640;
+    height: 640;
+    object-fit: cover;
 }

@@ -20,12 +20,22 @@ class Product(FutsalModel):
     stock = models.PositiveIntegerField("Stock del producto", default=0)
     sku = models.CharField("Product SKU", max_length=50, blank=True, null=True)
     is_available = models.BooleanField("Producto disponible", default=True)
+    best_seller = models.BooleanField("Más vendidos", default=False)
+    newcomers = models.BooleanField("Recién llegados", default=False)
     brand = models.ForeignKey(Brand, on_delete=models.SET_NULL, blank=True, null=True)
     category = models.ForeignKey(
-        Category, on_delete=models.SET_NULL, blank=True, null=True
+        Category,
+        on_delete=models.SET_NULL,
+        related_name="category_product",
+        blank=True,
+        null=True,
     )
     sub_category = models.ForeignKey(
-        SubCategory, on_delete=models.SET_NULL, blank=True, null=True
+        SubCategory,
+        on_delete=models.SET_NULL,
+        related_name="subcategory_product",
+        blank=True,
+        null=True,
     )
     rating = models.PositiveIntegerField("Calificación del producto", default=0)
     price = models.PositiveIntegerField("Precio")
@@ -48,6 +58,12 @@ class Product(FutsalModel):
         """Save method."""
         self.slug_name = slugify(self.name, separator="_")
         return super().save(*args, **kwargs)
+
+    @property
+    def discounted_price(self):
+        if self.percentage_discount:
+            return int(self.price - (self.price * self.percentage_discount / 100))
+        return self.price
 
 
 class ProductImage(FutsalModel):

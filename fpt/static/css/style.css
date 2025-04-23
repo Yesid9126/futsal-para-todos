@@ -7151,7 +7151,7 @@ header.sticky .navbar.disable-fixed {
   padding-left: 3px;
 }
 .navbar .navbar-nav .dropdown .dropdown-menu a {
-  color: var(--medium-gray);
+  color: var(--white);
   font-size: 15px;
   line-height: 24px;
   font-weight: 400;

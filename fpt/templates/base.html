@@ -11,11 +11,10 @@
     <meta name="description"
           content="Elevate your online presence with Crafto - a modern, versatile, multipurpose Bootstrap 5 responsive HTML5, SCSS template using highly creative 48+ ready demos." />
     <!-- favicon icon -->
-    <link rel="shortcut icon" href="images/favicon.png" />
-    <link rel="apple-touch-icon" href="images/apple-touch-icon-57x57.png" />
+    <link rel="shortcut icon" href="#" />
+    <link rel="apple-touch-icon" href="#" />
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" />
-    <script src="https://unpkg.com/feather-icons"></script>
     <link rel="apple-touch-icon"
           sizes="72x72"
           href="images/apple-touch-icon-72x72.png" />
@@ -102,68 +101,33 @@
                  id="navbarNav">
               <ul class="navbar-nav alt-font">
                 <li class="nav-item custom-item">
-                  <a href="#" class="nav-link">Inicio</a>
+                  <a href="{% url 'products:landing_page' %}" class="nav-link">Inicio</a>
                 </li>
-                <li class="nav-item dropdown simple-dropdown">
-                  <a href="javascript:void(0);" class="nav-link">Calzado</a>
-                  <i class="fa-solid fa-angle-down dropdown-toggle"
-                     id="navbarDropdownMenuLink3"
-                     role="button"
-                     data-bs-toggle="dropdown"
-                     aria-expanded="false"></i>
-                  <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3">
-                    <li class="dropdown">
-                      <li>
-                        <a href="#">Fútbol sala</a>
-                      </li>
-                      <li>
-                        <a href="#">Fútbol</a>
-                      </li>
-                    </li>
-                  </ul>
-                </li>
-                <li class="nav-item dropdown simple-dropdown">
-                  <a href="javascript:void(0);" class="nav-link">Ropa</a>
-                  <i class="fa-solid fa-angle-down dropdown-toggle"
-                     id="navbarDropdownMenuLink3"
-                     role="button"
-                     data-bs-toggle="dropdown"
-                     aria-expanded="false"></i>
-                  <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3">
-                    <li class="dropdown">
-                      <li>
-                        <a href="#">Camisas</a>
-                      </li>
-                      <li>
-                        <a href="#">Petos</a>
-                      </li>
-                      <li>
-                        <a href="#">Petos</a>
-                      </li>
-                    </li>
-                  </ul>
-                </li>
-                <li class="nav-item dropdown simple-dropdown">
-                  <a href="javascript:void(0);" class="nav-link">Accesorios</a>
-                  <i class="fa-solid fa-angle-down dropdown-toggle"
-                     id="navbarDropdownMenuLink3"
-                     role="button"
-                     data-bs-toggle="dropdown"
-                     aria-expanded="false"></i>
-                  <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3">
-                    <li class="dropdown">
-                      <li>
-                        <a href="#">Camisas</a>
-                      </li>
-                      <li>
-                        <a href="#">Petos</a>
-                      </li>
-                      <li>
-                        <a href="#">Petos</a>
-                      </li>
-                    </li>
-                  </ul>
-                </li>
+                <!-- list categories -->
+                {% for category in categories_menu %}
+                  <li class="nav-item dropdown simple-dropdown">
+                    <a href="{% url 'products:product_list_by_category' category.slug_name %}" class="nav-link">
+                      {{ category.name }}
+                    </a>
+                    <i class="fa-solid fa-angle-down dropdown-toggle"
+                      id="navbarDropdownMenuLink{{ forloop.counter }}"
+                      role="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"></i>
+                    {% if category.subcategory.all %}
+                      <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink{{ forloop.counter }}">
+                        {% for sub in category.subcategory.all %}
+                          <li>
+                            <a href="{% url 'products:product_list_by_subcategory' category.slug_name sub.slug_name %}">
+                              {{ sub.name }}
+                            </a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
+                  </li>
+                {% endfor %}
+                <!-- end list categories -->
                 <li class="nav-item">
                   <a href="#" class="nav-link">Promociones<span class="label bg-base-color text-white text-uppercase border-radius-26px">Top</span></a>
                 </li>
@@ -180,7 +144,7 @@
                       <a href="javascript:void(0);" class="alt-font close">×</a>
                       <div class="product-image">
                         <a href="#">
-                          <img src="https://via.placeholder.com/600x700" class="cart-thumb" alt="" />
+                          <img src="https://placehold.co/600x700" class="cart-thumb" alt="" />
                         </a>
                       </div>
                       <div class="product-detail alt-font fw-600">
@@ -192,7 +156,7 @@
                       <a href="javascript:void(0);" class="alt-font close">×</a>
                       <div class="product-image">
                         <a href="#">
-                          <img src="https://via.placeholder.com/600x700" class="cart-thumb" alt="" />
+                          <img src="https://placehold.co/600x700" class="cart-thumb" alt="" />
                         </a>
                       </div>
                       <div class="product-detail alt-font fw-600">
@@ -391,10 +355,6 @@
             src="{% static 'js/revolution/revolution.extension.slideanims.min.js' %}"></script>
     <script type="text/javascript"
             src="{% static 'js/revolution/revolution.extension.migration.min.js' %}"></script>
-    <!-- Slider Revolution add on files -->
-    <script type='text/javascript'
-            src="{% static 'js/revolution/revolution.addon.particles.min.js?ver=1.0.3' %}"></script>
-    <!-- Slider's main "init" script -->
     <script type="text/javascript">
       jQuery(document).ready(function() {
         jQuery("#decor-store-slider").show().revolution({
