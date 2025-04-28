@@ -874,8 +874,8 @@
                       <li class="grid-item">
                         <div class="shop-box pb-25px">
                           <div class="shop-image">
-                            <a href="#">
-                              <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}" class="product-image-fixed" />
+                            <a href="{% url 'products:product_detail' product.slug_name %}">
+                              <img src="{{ product.principal_image.0.image.url }}" alt="{{ product.name }}" class="product-image-fixed" />
                               <div class="product-overlay bg-gradient-extra-midium-gray-transparent"></div>
                             </a>
                             <div class="shop-hover d-flex justify-content-center">
@@ -883,13 +883,8 @@
                                 class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
                                 data-bs-toggle="tooltip"
                                 data-bs-placement="top"
-                                title="Me gusta"><i class="fa fa-heart" aria-hidden="true"></i></a>
-                              <a href="#"
-                                class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                                data-bs-toggle="tooltip"
-                                data-bs-placement="top"
                                 title="Añadir al carrito"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                              <a href="#"
+                              <a href="{% url 'products:product_detail' product.slug_name %}"
                                 class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
                                 data-bs-toggle="tooltip"
                                 data-bs-placement="top"
@@ -926,8 +921,8 @@
                         <li class="grid-item">
                           <div class="shop-box pb-25px">
                             <div class="shop-image">
-                              <a href="demo-decor-store-single-product.html">
-                                <img src="{{ newcomerce.images.first.image.url }}" alt="{{ newcomerce.name }}" class="product-image-fixed" />
+                              <a href="{% url 'products:product_detail' newcomerce.slug_name %}">
+                                <img src="{{ newcomerce.principal_image.0.image.url }}" alt="{{ newcomerce.name }}" class="product-image-fixed" />
                                 <div class="product-overlay bg-gradient-extra-midium-gray-transparent"></div>
                               </a>
                               <div class="shop-hover d-flex justify-content-center">
@@ -1043,7 +1038,7 @@
                       <!-- start text slider item -->
                       <div class="swiper-slide cover-background h-100 text-center">
                         <a href="demo-decor-store-single-product.html">
-                          <img src="{{ accessorie.images.first.image.url }}" alt="{{ accessorie.name }}" class="product-image-fixed-accessories" />
+                          <img src="{{ accessorie.principal_image.0.image.url }}" alt="{{ accessorie.name }}" class="product-image-fixed-accessories" />
                         </a>
                         <div class="position-absolute bottom-70px xs-bottom-25px w-100 left-0 text-center ls-minus-05px">
                           <a href="demo-decor-store-single-product.html"

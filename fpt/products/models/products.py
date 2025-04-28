@@ -4,7 +4,7 @@ from slugify import slugify
 from django.db import models
 
 # Models
-from fpt.users.models import FutsalModel
+from fpt.users.models import FutsalModel, User
 from fpt.products.models.categories import Category, Brand, SubCategory
 
 
@@ -38,6 +38,7 @@ class Product(FutsalModel):
         null=True,
     )
     rating = models.PositiveIntegerField("Calificación del producto", default=0)
+    likes = models.PositiveIntegerField("Likes del producto", default=0)
     price = models.PositiveIntegerField("Precio")
     percentage_discount = models.PositiveIntegerField(
         "Porcentaje de descuento", default=0
@@ -46,8 +47,8 @@ class Product(FutsalModel):
     class Meta:
         """Meta option."""
 
-        verbose_name = "Product"
-        verbose_name_plural = "Products"
+        verbose_name = "Producto"
+        verbose_name_plural = "Productos"
         ordering = ["-created", "-modified"]
 
     def __str__(self) -> str:
@@ -73,6 +74,10 @@ class ProductImage(FutsalModel):
         Product, on_delete=models.CASCADE, related_name="images"
     )
     image = models.ImageField("Imagen del producto", upload_to="products/images/")
+    is_principal = models.BooleanField(
+        default=False,
+        help_text="selecciona esta casilla si es la imagen principal del producto",
+    )
 
     class Meta:
         """Meta option."""
@@ -103,3 +108,30 @@ class ProductStockBySize(FutsalModel):
     def __str__(self) -> str:
         """Return product name."""
         return self.product.name
+
+
+class ProductComment(FutsalModel):
+    """Product comment model."""
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="user_comments",
+        null=True,
+        blank=True,
+    )
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name="product_comment"
+    )
+    comment = models.TextField("Comentario del producto")
+    likes = models.PositiveIntegerField(default=0)
+    rating = models.FloatField("Rating", default=0)
+
+    class Meta:
+        """Meta option."""
+
+        verbose_name = "Comentario del producto"
+        verbose_name_plural = "comentarios del producto"
+
+    def __str__(self):
+        return f"Comentario en {self.product.name}"

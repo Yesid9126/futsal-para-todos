@@ -5,7 +5,9 @@ from django.core import paginator as pag
 class BaseFilterMixin:
     """Base view for filters and pagination."""
 
-    paginate_by = 4
+    def get_paginate_by(self, queryset=None):
+        """Override this method in views to set paginate_by dynamically."""
+        return getattr(self, "paginate_by", 10)
 
     def _get_pagination(self, request, qs):
         page = request.GET.get("page", 1)

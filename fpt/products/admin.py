@@ -3,7 +3,11 @@ from django.contrib import admin
 # Models
 from fpt.products.models import Product
 from fpt.products.models.categories import Brand, Category, SubCategory
-from fpt.products.models.products import ProductImage, ProductStockBySize
+from fpt.products.models.products import (
+    ProductImage,
+    ProductStockBySize,
+    ProductComment,
+)
 
 # Register your models here.
 
@@ -60,3 +64,13 @@ class CategoryAdmin(admin.ModelAdmin):
     list_filter = ["created", "modified"]
     readonly_fields = ["slug_name"]
     inlines = [SubCategoryInline]
+
+
+@admin.register(ProductComment)
+class ProductCommentAdmin(admin.ModelAdmin):
+    """Product comment admin."""
+
+    list_display = ["user", "product", "likes"]
+    search_fields = ["user__first_name", "user__last_name", "user__email"]
+    list_filter = ["created", "modified"]
+    autocomplete_fields = ["user", "product"]
