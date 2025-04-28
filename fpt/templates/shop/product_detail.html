@@ -9,7 +9,7 @@
 
 <section class="top-space-margin border-top border-color-extra-medium-gray pt-20px pb-20px ps-45px pe-45px lg-ps-35px lg-pe-35px md-ps-15px md-pe-15px sm-ps-0 sm-pe-0">
     <div class="container-fluid">
-        <div class="row align-items-center"> 
+        <div class="row align-items-center">
             <div class="col-12 breadcrumb breadcrumb-style-01 fs-14 alt-font">
                 <ul>
                     <li><a href="{% url 'products:landing_page' %}">Inicio</a></li>
@@ -33,7 +33,7 @@
         </div>
     </div>
 </section>
-<!-- end breadcrumb --> 
+<!-- end breadcrumb -->
 <!-- start section -->
 <section class="pt-40px pb-0">
     <div class="container">
@@ -64,7 +64,7 @@
                                     </div>
                                 {% endfor %}
                             </div>
-                        </div> 
+                        </div>
                     </div>
                 </div>
             </div>
@@ -115,7 +115,7 @@
                     <a href="demo-decor-store-cart.html" class="btn btn-cart btn-extra-large btn-switch-text btn-box-shadow btn-none-transform btn-dark-gray left-icon border-radius-5px me-15px xs-me-0 order-3 order-sm-2">
                         <span>
                             <span><i class="feather icon-feather-shopping-bag"></i></span>
-                            <span class="btn-double-text" data-text="Agregar al carrito">Agregar al carrito</span> 
+                            <span class="btn-double-text" data-text="Agregar al carrito">Agregar al carrito</span>
                         </span>
                     </a>
                 </div>
@@ -123,17 +123,17 @@
                 <div class="row mb-15px">
                     <div class="col-12 icon-with-text-style-08">
                         <div class="feature-box feature-box-left-icon d-inline-flex align-middle">
-                            <div class="feature-box-icon me-10px">  
+                            <div class="feature-box-icon me-10px">
                                 <i class="feather icon-feather-truck top-8px position-relative align-middle text-dark-gray"></i>
                             </div>
                             <div class="feature-box-content">
-                                <span><span class="alt-font text-dark-gray fw-500">Entrega estimada:</span> March 03 - March 07</span> 
+                                <span><span class="alt-font text-dark-gray fw-500">Entrega estimada:</span> March 03 - March 07</span>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 icon-with-text-style-08 mb-10px">
                         <div class="feature-box feature-box-left-icon d-inline-flex align-middle">
-                            <div class="feature-box-icon me-10px">  
+                            <div class="feature-box-icon me-10px">
                                 <i class="feather icon-feather-archive top-8px position-relative align-middle text-dark-gray"></i>
                             </div>
                             <div class="feature-box-content">
@@ -172,7 +172,7 @@
                         {% with average_rating_int=average_rating|floatformat:0 %}
                             <div class="tab-pane fade in active show" id="tab_five1">
                                 <div class="row align-items-center mb-6 sm-mb-10">
-                                    
+
                                     <!-- Texto principal -->
                                     <div class="col-lg-4 col-md-12 col-sm-7 md-mb-30px text-center text-lg-start">
                                         <h5 class="alt-font text-dark-gray fw-600 mb-0 w-85 lg-w-100">
@@ -251,7 +251,7 @@
                                                 <img src="https://placehold.co/200x200" class="rounded-circle w-90px mb-10px" alt="">
                                                 <span class="text-dark-gray fw-600 d-block">{{comment.user.name}} {{comment.user.last_name}}</span>
                                                 <div class="fs-14 lh-18">{{comment.created|date}}</div>
-                                            </div>  
+                                            </div>
                                             <div class="w-100 last-paragraph-no-margin sm-ps-0 position-relative text-center text-md-start">
                                                 <span class="text-golden-yellow ls-minus-1px mb-5px sm-me-10px sm-mb-0 d-inline-block d-md-block">
                                                     {% for i in "12345" %}
@@ -264,7 +264,7 @@
                                                             {% endwith %}
                                                         {% endfor %}
                                                 </span>
-                                                
+
                                                 <p class="w-85 sm-w-100 sm-mt-15px">{{comment.comment}}.</p>
                                             </div>
                                         </div>
@@ -284,7 +284,7 @@
                                                     </a>
                                                 </li>
                                             {% endif %}
-                
+
                                             {% for i in comments.paginator.page_range %}
                                                 {% if comments.number == i %}
                                                     <li class="active page-item">
@@ -322,7 +322,7 @@
                                             <h4 class="alt-font text-dark-gray fw-700 mb-20px">Añadir reseña</h4>
                                         </div>
                                     </div>
-                        
+
                                     <form method="post" class="row contact-form-style-02" id="comment-form">
                                         {% csrf_token %}
                                         <!-- Calificación con estrellas -->
@@ -346,7 +346,7 @@
                                                 <input type="email" name="email" class="form-control border-radius-4px" placeholder="Ingresa tu correo" required>
                                             </div>
                                         {% endif %}
-                        
+
                                         <!-- Reseña -->
                                         <div class="col-md-12 mb-20px">
                                             <label class="form-label mb-15px">Tu reseña</label>
@@ -367,7 +367,7 @@
                         <div class="row align-items-center justify-content-center mb-5 sm-mb-10">
                             <div class="col-xl-8 col-lg-9 md-mb-40px">
                                 <div class="d-flex align-items-center mb-10px">
-                                    <div class="col-auto pe-5px"><i class="bi bi-heart-fill text-red fs-14"></i></div> 
+                                    <div class="col-auto pe-5px"><i class="bi bi-heart-fill text-red fs-14"></i></div>
                                     <div class="col alt-font fs-15 fw-500 text-dark-gray">Consintiendo los deportistas</div>
                                 </div>
                                 <h4 class="alt-font text-dark-gray fw-700 mb-20px">{{product.name}}.</h4>
@@ -377,7 +377,7 @@
                                         <div class="feature-box-icon feature-box-icon-rounded w-30px h-30px rounded-circle bg-very-light-gray me-10px">
                                             <i class="fa-solid fa-check fs-12 text-dark-gray"></i>
                                         </div>
-                                        <div class="feature-box-content"> 
+                                        <div class="feature-box-content">
                                             <span class="d-block text-dark-gray fw-500">Productos de calidad.</span>
                                         </div>
                                     </div>
@@ -385,7 +385,7 @@
                                         <div class="feature-box-icon feature-box-icon-rounded w-30px h-30px rounded-circle bg-very-light-gray me-10px">
                                             <i class="fa-solid fa-check fs-12 text-dark-gray"></i>
                                         </div>
-                                        <div class="feature-box-content"> 
+                                        <div class="feature-box-content">
                                             <span class="d-block text-dark-gray fw-500">Envío contra entrega.</span>
                                         </div>
                                     </div>
@@ -393,7 +393,7 @@
                                         <div class="feature-box-icon feature-box-icon-rounded w-30px h-30px rounded-circle bg-very-light-gray me-10px">
                                             <i class="fa-solid fa-check fs-12 text-dark-gray"></i>
                                         </div>
-                                        <div class="feature-box-content"> 
+                                        <div class="feature-box-content">
                                             <span class="d-block text-dark-gray fw-500">Garantías.</span>
                                         </div>
                                     </div>
@@ -401,7 +401,7 @@
                                         <div class="feature-box-icon feature-box-icon-rounded w-30px h-30px rounded-circle bg-very-light-gray me-10px">
                                             <i class="fa-solid fa-check fs-12 text-dark-gray"></i>
                                         </div>
-                                        <div class="feature-box-content"> 
+                                        <div class="feature-box-content">
                                             <span class="d-block text-dark-gray fw-500">Pago contra entrega.</span>
                                         </div>
                                     </div>
@@ -442,15 +442,15 @@
         }
         stars.forEach((star, index) => {
             const value = index + 1;
-        
+
             star.addEventListener('mouseover', () => {
                 updateStars(value);
             });
-        
+
             star.addEventListener('mouseout', () => {
                 updateStars(selected);
             });
-        
+
             star.addEventListener('click', () => {
                 selected = value;
                 input.value = selected;
