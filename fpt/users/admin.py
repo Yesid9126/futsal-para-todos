@@ -1,27 +1,38 @@
-from allauth.account.decorators import secure_admin_login
-from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth import admin as auth_admin
 from django.utils.translation import gettext_lazy as _
 
-from .forms import UserAdminChangeForm
-from .forms import UserAdminCreationForm
-from .models import User
+from fpt.users.forms.users import UserChangeForm
+from .models import User, UserAddress
 
-if settings.DJANGO_ADMIN_FORCE_ALLAUTH:
-    # Force the `admin` sign in process to go through the `django-allauth` workflow:
-    # https://docs.allauth.org/en/latest/common/admin.html#admin
-    admin.autodiscover()
-    admin.site.login = secure_admin_login(admin.site.login)  # type: ignore[method-assign]
+
+class UserAddressInline(admin.StackedInline):
+    """SubCategory inline admin."""
+
+    model = UserAddress
+    extra = 1
 
 
 @admin.register(User)
 class UserAdmin(auth_admin.UserAdmin):
-    form = UserAdminChangeForm
-    add_form = UserAdminCreationForm
+    form = UserChangeForm
     fieldsets = (
         (None, {"fields": ("username", "password")}),
-        (_("Personal info"), {"fields": ("name", "email")}),
+        (
+            _("Personal info"),
+            {
+                "fields": (
+                    "first_name",
+                    "last_name",
+                    "email",
+                    "phone_number",
+                    "photo",
+                    "birthdate",
+                    "discount_used",
+                    "is_client",
+                )
+            },
+        ),
         (
             _("Permissions"),
             {
@@ -36,5 +47,8 @@ class UserAdmin(auth_admin.UserAdmin):
         ),
         (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
-    list_display = ["username", "name", "is_superuser"]
-    search_fields = ["name"]
+    list_display = ["first_name", "last_name", "is_client", "phone_number"]
+    search_fields = ["email", "first_name", "last_name"]
+    inlines = [
+        UserAddressInline,
+    ]

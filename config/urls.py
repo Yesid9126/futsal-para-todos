@@ -1,20 +1,42 @@
-# ruff: noqa
+# Django
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include
 from django.urls import path
 from django.views import defaults as default_views
-from django.views.generic import TemplateView
+from django.contrib.auth import views
 from drf_spectacular.views import SpectacularAPIView
 from drf_spectacular.views import SpectacularSwaggerView
 from rest_framework.authtoken.views import obtain_auth_token
+
+# Authentication views
+from fpt.users.authentication import (
+    PasswordResetConfirmViewCustom,
+    PasswordResetCustomView,
+)
 
 urlpatterns = [
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
-    path("accounts/", include("allauth.urls")),
+    path("", include("fpt.users.urls", namespace="users")),
+    path("password_reset/", PasswordResetCustomView.as_view(), name="password_reset"),
+    path(
+        "password_reset/done/",
+        views.PasswordResetDoneView.as_view(),
+        name="password_reset_done",
+    ),
+    path(
+        "reset/<uidb64>/<token>/",
+        PasswordResetConfirmViewCustom.as_view(),
+        name="password_reset_confirm",
+    ),
+    path(
+        "reset/done/",
+        views.PasswordResetCompleteView.as_view(),
+        name="password_reset_complete",
+    ),
     path("", include("fpt.products.urls", namespace="products")),
     # Your stuff: custom urls includes go here
     # ...

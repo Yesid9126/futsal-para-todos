@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load humanize %}
+
+{% block title %}Futsal para todos{% endblock %}
+{% block content %}
+<!-- start section logiin-->
+<section>
+    <div class="container">
+        <div class="row g-0 justify-content-center">
+            <div class="col-xl-6 col-lg-6 col-md-10 section-login" data-anime='{ "translateY": [0, 0], "opacity": [0,1], "duration": 600, "delay":100, "staggervalue": 150, "easing": "easeOutQuad" }'>
+                <span class="fs-26 xs-fs-24 alt-font fw-600 text-dark-gray mb-20px d-block">Crear cuenta</span>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {% if form.errors %}
+                        <p class="alert alert-danger">
+                            {% for key, value in form.errors.items  %}
+                                {{value.0}}
+                            {% endfor %}
+                        </p>
+                    {% endif %}
+                    <div class="row gx-3">
+                        <div class="col">
+                            <label class="text-dark-gray mb-10px fw-500" for="namef">
+                                {{form.first_name.label}}
+                            </label>
+                            {{form.first_name}}
+                        </div>
+                        <div class="col">
+                            <label class="text-dark-gray mb-10px fw-500" for="namel">{{form.last_name.label}}</label>
+                            {{form.last_name}}
+                        </div>
+                    </div>
+                    <div class="row gx-3">
+                        <div class="col">
+                            <label class="text-dark-gray mb-10px fw-500" for="emailadd">{{form.email.label}}</label>
+                            {{form.email}}
+                        </div>
+                    </div>
+                    <div class="row gx-3">
+                        <div class="col">
+                            <label class="text-dark-gray mb-10px fw-500" for="phone_prefix">
+                                {{form.phone_prefix.label}}
+                            </label>
+                            <select class="mb-20px bg-very-light-gray form-select" name="phone_prefix" id="id_phone_prefix" aria-label="Country code">
+                                <option value="57" selected>🇨🇴 +57</option>
+                                <option value="1">🇺🇸 +1</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label class="text-dark-gray mb-10px fw-500" for="namel">{{form.phone_number.label}}</label>
+                            {{form.phone_number}}
+                        </div>
+                    </div>
+                <div class="position-relative">
+                    <label class="text-dark-gray mb-10px fw-500" for="checkstrength">{{form.password.label}}</label>
+                    {{form.password}}
+                </div>
+                <div class="position-relative">
+                    <label class="text-dark-gray mb-10px fw-500" for="passwd">{{form.password_confirmation.label}}</label>
+                    {{form.password_confirmation}}
+                    <button class="btn btn-medium btn-round-edge btn-base-color btn-box-shadow w-100" type="submit">Registrarme</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end section -->
+{% endblock %}

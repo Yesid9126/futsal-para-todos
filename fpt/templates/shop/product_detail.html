@@ -248,8 +248,12 @@
                                     <div class="col-12 border-bottom border-color-extra-medium-gray pb-40px mb-40px xs-pb-30px xs-mb-30px">
                                         <div class="d-block d-md-flex w-100 align-items-center">
                                             <div class="w-300px md-w-250px sm-w-100 sm-mb-10px text-center">
-                                                <img src="https://placehold.co/200x200" class="rounded-circle w-90px mb-10px" alt="">
-                                                <span class="text-dark-gray fw-600 d-block">{{comment.user.name}} {{comment.user.last_name}}</span>
+                                                {% if comment.user.photo %}
+                                                    <img src="{{comment.user.photo.url}}" class="rounded-circle w-90px mb-10px" alt="">
+                                                {% else %}
+                                                    <img src="{% static 'images/user-circle.svg' %}" class="rounded-circle w-90px mb-10px" alt="">
+                                                {% endif %}
+                                                    <span class="text-dark-gray fw-600 d-block">{{comment.user.first_name}} {{comment.user.last_name}}</span>
                                                 <div class="fs-14 lh-18">{{comment.created|date}}</div>
                                             </div>
                                             <div class="w-100 last-paragraph-no-margin sm-ps-0 position-relative text-center text-md-start">
@@ -339,7 +343,11 @@
                                         {% if not request.user.is_authenticated %}
                                             <div class="col-lg-5 col-md-6 mb-20px">
                                                 <label class="form-label mb-15px">Tu nombre*</label>
-                                                <input type="text" name="name" class="form-control border-radius-4px" placeholder="Ingresa tu nombre" required>
+                                                <input type="text" name="first_name" class="form-control border-radius-4px" placeholder="Ingresa tu nombre" required>
+                                            </div>
+                                            <div class="col-lg-5 col-md-6 mb-20px">
+                                                <label class="form-label mb-15px">Tu apellido*</label>
+                                                <input type="text" name="last_name" class="form-control border-radius-4px" placeholder="Ingresa tu nombre" required>
                                             </div>
                                             <div class="col-lg-5 col-md-6 mb-20px">
                                                 <label class="form-label mb-15px">Tu correo electrónico*</label>

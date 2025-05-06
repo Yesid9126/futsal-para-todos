@@ -393,3 +393,6 @@ border-color: #232323;
 .rating-stars i.selected {
     color: gold;
 }
+.section-login {
+    padding-top: 120px !important;
+}

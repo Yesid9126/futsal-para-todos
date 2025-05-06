@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load humanize %}
+
+{% block title %}Futsal para todos{% endblock %}
+{% block content %}
+<!-- start section logiin-->
+<section>
+    <div class="container">
+        <div class="row g-0 justify-content-center">
+            <div class="col-xl-4 col-lg-5 col-md-10 contact-form-style-04 md-mb-50px section-login" data-anime='{ "translateY": [0, 0], "opacity": [0,1], "duration": 600, "delay":100, "staggervalue": 150, "easing": "easeOutQuad" }'>
+                <span class="fs-26 xs-fs-24 alt-font fw-600 text-dark-gray mb-20px d-block">Inicia sesión</span>
+                <form method="post">
+                    {% csrf_token %}
+                    {% if form.errors %}
+                        <p class="alert alert-danger">Parcer@, contraseña o usuario incorrecto</p>
+                    {% endif %}
+                    <label class="text-dark-gray mb-10px fw-500">{{form.email.label}}<span class="text-red">*</span></label>
+                    <input class="mb-20px bg-very-light-gray form-control required" type="email" name="email" placeholder="Ingrese su email" />
+                    <label class="text-dark-gray mb-10px fw-500">Contraseña<span class="text-red">*</span></label>
+                    <input class="mb-20px bg-very-light-gray form-control required" type="password" name="password" placeholder="Ingrese su contraseña" />
+                    <div class="position-relative terms-condition-box text-start d-flex align-items-center mb-20px">
+                        <label>
+                            <input type="checkbox" name="rememberme" id="rememberme" value="1" class="terms-condition check-box align-middle">
+                            <span class="box fs-14">Recuerdame</span>
+                        </label>
+                        <a href="/password_reset" class="fs-14 text-dark-gray fw-500 text-decoration-line-bottom ms-auto">Olvidaste tu contraseña?</a>
+                    </div>
+                    <button class="btn btn-medium btn-round-edge btn-base-color btn-box-shadow w-100" type="submit">Iniciar sesión</button>
+                </form>
+                <div class="small text-secondary text-center mb-4">No tienes cuenta? <a href="/signup" class="fs-14 text-dark-gray fw-500 text-decoration-line-bottom ms-auto">Crea una gratuita</a></div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end section -->
+{% endblock %}

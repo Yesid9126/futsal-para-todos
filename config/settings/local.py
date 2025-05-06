@@ -33,6 +33,10 @@ EMAIL_BACKEND = env(
     "DJANGO_EMAIL_BACKEND",
     default="django.core.mail.backends.console.EmailBackend",
 )
+EMAIL_TIMEOUT = 3600
+EMAIL_USE_TLS = False
+EMAIL_HOST = env("EMAIL_HOST", default="mailhog")
+EMAIL_PORT = env("EMAIL_PORT", default="1025")
 
 # WhiteNoise
 # ------------------------------------------------------------------------------
