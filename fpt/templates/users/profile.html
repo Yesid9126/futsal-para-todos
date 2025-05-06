@@ -62,41 +62,41 @@
                                                     <img src="/static/images/user-circle.svg" class="rounded-circle w-90px mb-10px" alt="Default Photo">
                                                 {% endif %}
                                             </div>
-                                    
+
                                             <!-- Nombre -->
                                             <div class="col-md-6 mb-3">
                                                 <label for="id_first_name" class="form-label">Nombre</label>
                                                 {{ user_form.first_name|safe }}
                                             </div>
-                                    
+
                                             <!-- Apellido -->
                                             <div class="col-md-6 mb-3">
                                                 <label for="id_last_name" class="form-label">Apellidos</label>
                                                 {{ user_form.last_name|safe }}
                                             </div>
-                                    
+
                                             <!-- Correo Electrónico -->
                                             <div class="col-md-6 mb-3">
                                                 <label for="id_email" class="form-label">Correo electrónico</label>
                                                 {{ user_form.email|safe }}
                                             </div>
-                                    
+
                                             <!-- Número de Teléfono -->
                                             <div class="col-md-6 mb-3">
                                                 <label for="id_phone_number" class="form-label">Número celular</label>
                                                 {{ user_form.phone_number|safe }}
                                             </div>
-                                    
+
                                             <!-- Fecha de nacimiento -->
                                             <div class="col-md-6 mb-3">
                                                 <label for="id_birthdate" class="form-label">Cumple años</label>
                                                 {{ user_form.birthdate }}
                                             </div>
                                             <!-- Foto -->
-                                            
+
                                             <div class="col-md-6 mb-3">
                                                 <label for="id_photo" class="form-label">Foto</label>
-                                                
+
                                                 {% if user_form.instance.photo %}
                                                     <!-- Si ya hay una foto, solo mostramos el input para cargar una nueva foto sin la ruta ni el checkbox -->
                                                     <input type="file" name="photo" class="form-control" id="id_photo">
@@ -111,7 +111,7 @@
                                             </div>
                                         </div>
                                     </form>
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -126,7 +126,7 @@
                                     <div class="row">
                                         <div class="col-lg-2 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600">Dirección:</div>
                                         <div class="col-lg-10 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">
-                                            <input 
+                                            <input
                                             class="mb-20px bg-very-light-gray form-control"
                                             type="text"
                                             name="address"

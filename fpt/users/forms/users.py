@@ -117,25 +117,45 @@ class SignUpForms(forms.Form):
     password = forms.CharField(
         max_length=70,
         label="Contraseña",
-        widget=forms.PasswordInput(attrs={"class": "mb-20px bg-very-light-gray form-control", "placeholder": "Ingresa tu contraseña"}),
+        widget=forms.PasswordInput(
+            attrs={
+                "class": "mb-20px bg-very-light-gray form-control",
+                "placeholder": "Ingresa tu contraseña",
+            }
+        ),
     )
     password_confirmation = forms.CharField(
         max_length=70,
         label="Confirmar contraseña",
-        widget=forms.PasswordInput(attrs={"class": "mb-20px bg-very-light-gray form-control", "placeholder": "Confirma tu contraseña"}),
+        widget=forms.PasswordInput(
+            attrs={
+                "class": "mb-20px bg-very-light-gray form-control",
+                "placeholder": "Confirma tu contraseña",
+            }
+        ),
     )
 
     first_name = forms.CharField(
         min_length=2,
         max_length=50,
         label="Nombres",
-        widget=forms.TextInput(attrs={"class": "mb-20px bg-very-light-gray form-control", "placeholder": "Ingresa tu nombre"}),
+        widget=forms.TextInput(
+            attrs={
+                "class": "mb-20px bg-very-light-gray form-control",
+                "placeholder": "Ingresa tu nombre",
+            }
+        ),
     )
     last_name = forms.CharField(
         min_length=2,
         max_length=50,
         label="Apellidos",
-        widget=forms.TextInput(attrs={"class": "mb-20px bg-very-light-gray form-control", "placeholder": "Ingresa tus apellidos"}),
+        widget=forms.TextInput(
+            attrs={
+                "class": "mb-20px bg-very-light-gray form-control",
+                "placeholder": "Ingresa tus apellidos",
+            }
+        ),
     )
 
     phone_number = forms.CharField(
@@ -144,7 +164,10 @@ class SignUpForms(forms.Form):
         label="Número télefono",
         initial="",
         widget=forms.TextInput(
-            attrs={"class": "mb-20px bg-very-light-gray form-control", "placeholder": "Ejemplo +57 300 000 00 00"}
+            attrs={
+                "class": "mb-20px bg-very-light-gray form-control",
+                "placeholder": "Ejemplo +57 300 000 00 00",
+            }
         ),
     )
     phone_prefix = forms.CharField(
@@ -152,14 +175,21 @@ class SignUpForms(forms.Form):
         max_length=50,
         label="Código",
         initial="+57",
-        widget=forms.TextInput(attrs={"class": "mb-20px bg-very-light-gray form-control", "readonly": True}),
+        widget=forms.TextInput(
+            attrs={"class": "mb-20px bg-very-light-gray form-control", "readonly": True}
+        ),
     )
 
     email = forms.CharField(
         min_length=6,
         max_length=70,
         label="Correo electrónico",
-        widget=forms.EmailInput(attrs={"class": "mb-20px bg-very-light-gray form-control", "placeholder": "Ingresa tu correo"}),
+        widget=forms.EmailInput(
+            attrs={
+                "class": "mb-20px bg-very-light-gray form-control",
+                "placeholder": "Ingresa tu correo",
+            }
+        ),
     )
 
     def clean_phone_number(self):
@@ -202,28 +232,42 @@ class SignUpForms(forms.Form):
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ["first_name", "last_name", "email", "phone_number", "birthdate", "photo"]
+        fields = [
+            "first_name",
+            "last_name",
+            "email",
+            "phone_number",
+            "birthdate",
+            "photo",
+        ]
         widgets = {
-            'birthdate': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}, format='%Y-%m-%d'),
-            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control'}),
-            'phone_number': forms.NumberInput(attrs={'class': 'form-control'}),
-            'photo': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            "birthdate": forms.DateInput(
+                attrs={"type": "date", "class": "form-control"}, format="%Y-%m-%d"
+            ),
+            "first_name": forms.TextInput(attrs={"class": "form-control"}),
+            "last_name": forms.TextInput(attrs={"class": "form-control"}),
+            "email": forms.EmailInput(attrs={"class": "form-control"}),
+            "phone_number": forms.NumberInput(attrs={"class": "form-control"}),
+            "photo": forms.ClearableFileInput(attrs={"class": "form-control"}),
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             if self.errors.get(field_name):
-                existing_class = field.widget.attrs.get('class', '')
-                field.widget.attrs['class'] = f'{existing_class} is-invalid'
+                existing_class = field.widget.attrs.get("class", "")
+                field.widget.attrs["class"] = f"{existing_class} is-invalid"
 
 
 class UserAddressForm(forms.ModelForm):
     class Meta:
         model = UserAddress
-        fields = ["address", "neighborhood", "additional_information", "secondary_contact"]
+        fields = [
+            "address",
+            "neighborhood",
+            "additional_information",
+            "secondary_contact",
+        ]
         widgets = {
             "address": forms.TextInput(attrs={"class": "form-control"}),
             "neighborhood": forms.TextInput(attrs={"class": "form-control"}),
@@ -233,4 +277,6 @@ class UserAddressForm(forms.ModelForm):
 
 
 class PromoCodeForm(forms.Form):
-    promo_code = forms.CharField(label="Código Promocional", max_length=100, required=False)
+    promo_code = forms.CharField(
+        label="Código Promocional", max_length=100, required=False
+    )
