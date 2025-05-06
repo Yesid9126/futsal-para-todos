@@ -52,6 +52,11 @@ services:
     ports: []
     command: /start-celeryworker
 
+  mailhog:
+    image: mailhog/mailhog:v1.0.0
+    container_name: fpt_local_mailhog
+    ports:
+      - '8025:8025'
   celerybeat:
     <<: *django
     image: fpt_local_celerybeat

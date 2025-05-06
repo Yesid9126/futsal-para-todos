@@ -6,9 +6,10 @@ from fpt.products.models import ProductComment
 
 
 class ProductCommentForm(forms.ModelForm):
-    name = forms.CharField(required=False)
+    first_name = forms.CharField(required=False)
+    last_name = forms.CharField(required=False)
     email = forms.EmailField(required=False)
 
     class Meta:
         model = ProductComment
-        fields = ["name", "email", "comment", "rating"]
+        fields = ["first_name", "last_name", "email", "comment", "rating"]

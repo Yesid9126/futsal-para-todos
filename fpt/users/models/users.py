@@ -1,30 +1,58 @@
+# Django
 from django.contrib.auth.models import AbstractUser
-from django.db.models import CharField
+from django.core.validators import RegexValidator
 from django.db import models
-from django.urls import reverse
-from django.utils.translation import gettext_lazy as _
+
+# Models
+from fpt.utils.models import FptBaseModel
 
 
-class User(AbstractUser):
+class User(FptBaseModel, AbstractUser):
+    """User model.
+
+    Extend from Django abstract user, change the username field to email
+    and add some extra info
     """
-    Default custom user model for futsal_para_todos.
-    If adding fields that need to be filled at user signup,
-    check forms.SignupForm and forms.SocialSignupForms accordingly.
-    """
 
-    # First and last name do not cover name patterns around the globe
-    name = CharField(_("Name of User"), blank=True, max_length=255)
-    first_name = None  # type: ignore[assignment]
-    last_name = None  # type: ignore[assignment]
+    email = models.EmailField(
+        "email address",
+        unique=True,
+        error_messages={
+            "unique": "A user with that email already exist",
+        },
+    )
+    phone_regex = RegexValidator(
+        regex=r"\+?1?\d{9,15}$",
+        message="phone number must be entered in the format +99999999999",
+    )
+    phone_number = models.CharField(
+        validators=[phone_regex], max_length=17, unique=True
+    )
 
-    def get_absolute_url(self) -> str:
-        """Get URL for user's detail view.
+    photo = models.ImageField(
+        "profile picture",
+        upload_to="users/photos/",
+        blank=True,
+        null=True,
+    )
+    birthdate = models.DateField(blank=True, null=True)
 
-        Returns:
-            str: URL for user detail.
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username", "first_name", "last_name"]
 
-        """
-        return reverse("users:detail", kwargs={"username": self.username})
+    is_client = models.BooleanField(
+        "client",
+        default=True,
+    )
+    is_verified = models.BooleanField(
+        "verified",
+        default=False,
+        help_text="set to true when address email have verified",
+    )
+    discount_used = models.BooleanField(
+        "Ya uso el descuento de registro?",
+        default=False,
+    )
 
 
 class FutsalModel(models.Model):
@@ -53,3 +81,16 @@ class FutsalModel(models.Model):
         abstract = True
         get_latest_by = "created"
         ordering = ["-created", "-modified"]
+
+
+class UserAddress(FptBaseModel):
+    user = models.OneToOneField(
+        "users.User", on_delete=models.CASCADE, related_name="user_address"
+    )
+    address = models.CharField(max_length=500, blank=True, null=True)
+    neighborhood = models.CharField(max_length=500, blank=True, null=True)
+    additional_information = models.CharField(max_length=500, blank=True, null=True)
+    secondary_contact = models.CharField(max_length=500, blank=True, null=True)
+
+    def __str__(self):
+        return f"User address {self.address}"

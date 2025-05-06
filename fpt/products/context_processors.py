@@ -23,4 +23,9 @@ def category_context(request):
             .all()
             .order_by("created")
         )
-    return {"categories_menu": categories, "subcategories_menu": subcategories_menu}
+    user = request.user if not request.user.is_anonymous else None
+    return {
+        "categories_menu": categories,
+        "subcategories_menu": subcategories_menu,
+        "user": user,
+    }

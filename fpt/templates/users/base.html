@@ -1,0 +1,73 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <title>Futsal para todos</title>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="author" content="ThemeZaa" />
+        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+        <meta name="description"
+            content="Elevate your online presence with Crafto - a modern, versatile, multipurpose Bootstrap 5 responsive HTML5, SCSS template using highly creative 48+ ready demos." />
+        <!-- favicon icon -->
+        <link rel="shortcut icon" href="#" />
+        <link rel="apple-touch-icon" href="#" />
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" />
+        <link rel="apple-touch-icon"
+            sizes="72x72"
+            href="images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon"
+            sizes="114x114"
+            href="images/apple-touch-icon-114x114.png" />
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+            integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer" />
+        <!-- google fonts preconnect -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <!-- slider revolution CSS files -->
+        <link rel="stylesheet"
+            type="text/css"
+            href="{% static 'css/revolution/settings.css' %}" />
+        <link rel="stylesheet"
+            type="text/css"
+            href="{% static 'css/revolution/layers.css' %}" />
+        <link rel="stylesheet"
+            type="text/css"
+            href="{% static 'css/revolution/navigation.css' %}" />
+        <!-- style sheets and font icons  -->
+        <link rel="stylesheet" href="{% static 'css/vendors.min.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/icon.min.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/style.min.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/responsive.min.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/decor-store.css' %}" />
+    </head>
+
+    <body
+    class="main-bg main-bg-opac roundedui adminuiux-header-standard adminuiux-sidebar-standard theme-purple adminuiux-header-transparent adminuiux-sidebar-fill-theme bg-white scrollup"
+    data-theme="theme-orange" data-sidebarfill="adminuiux-sidebar-fill-theme" data-bs-spy="scroll"
+    data-bs-target="#list-example" data-bs-smooth-scroll="true" tabindex="0"
+    data-sidebarlayout="adminuiux-sidebar-standard" data-headerlayout="adminuiux-header-standard"
+    data-headerfill="adminuiux-header-transparent">
+    <header class="adminuiux-header">
+        <nav class="navbar navbar-expand-lg fixed-top">
+        </nav>
+    </header>
+
+    {% block container %}
+
+    {% endblock container %}
+
+    <script src="{% static 'assets/js/fitness/fitness-auth.js' %}"></script>
+    {% block js %}
+
+    {% endblock js %}
+
+
+    </body>
+
+</html>

@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load humanize %}
+
+{% block title %}Futsal para todos{% endblock %}
+{% block content %}
+<section class="mb-6">
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        <div class="row g-0 justify-content-center">
+            <div class="col-12 tab-style-04 section-login">
+                <ul class="nav nav-tabs border-0 justify-content-center alt-font fs-19">
+                    <li class="nav-item"><a data-bs-toggle="tab" href="#tab_five1" class="nav-link active">Perfil<span class="tab-border bg-dark-gray"></span></a></li>
+                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab_five2">Dirección<span class="tab-border bg-dark-gray"></span></a></li>
+                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab_five3">Pedidos<span class="tab-border bg-dark-gray"></span></a></li>
+                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab_five4">Códigos promocionales<span class="tab-border bg-dark-gray"></span></a></li>
+                </ul>
+                <div class="mb-5 h-1px w-100 bg-extra-medium-gray sm-mt-10px xs-mb-8"></div>
+                <div class="tab-content">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                <strong>{{ message }}</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <!-- Perfil -->
+                    <div class="tab-pane fade in active show" id="tab_five1">
+                        <div class="row justify-content-center">
+                            <div class="col-12">
+                                <div class="p-7 lg-p-5 sm-p-7 bg-very-light-gray">
+                                    <h4 class="alt-font text-dark-gray fw-500 text-center mb-4">Hola {{user.first_name}}</h4>
+                                    {% if user_form.errors %}
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <ul class="mb-0">
+                                            {% for field in user_form %}
+                                                {% for error in field.errors %}
+                                                <li>{{ error }}</li>
+                                                {% endfor %}
+                                            {% endfor %}
+                                            {% for error in user_form.non_field_errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                            </ul>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    {% endif %}
+                                    <form method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <div class="row justify-content-center">
+                                            <!-- Foto de perfil -->
+                                            <div class="col-12 text-center mb-4">
+                                                {% if user_form.instance.photo %}
+                                                    <img src="{{ user_form.instance.photo.url }}" class="rounded-circle w-90px mb-10px" alt="Profile Photo">
+                                                {% else %}
+                                                    <img src="/static/images/user-circle.svg" class="rounded-circle w-90px mb-10px" alt="Default Photo">
+                                                {% endif %}
+                                            </div>
+                                    
+                                            <!-- Nombre -->
+                                            <div class="col-md-6 mb-3">
+                                                <label for="id_first_name" class="form-label">Nombre</label>
+                                                {{ user_form.first_name|safe }}
+                                            </div>
+                                    
+                                            <!-- Apellido -->
+                                            <div class="col-md-6 mb-3">
+                                                <label for="id_last_name" class="form-label">Apellidos</label>
+                                                {{ user_form.last_name|safe }}
+                                            </div>
+                                    
+                                            <!-- Correo Electrónico -->
+                                            <div class="col-md-6 mb-3">
+                                                <label for="id_email" class="form-label">Correo electrónico</label>
+                                                {{ user_form.email|safe }}
+                                            </div>
+                                    
+                                            <!-- Número de Teléfono -->
+                                            <div class="col-md-6 mb-3">
+                                                <label for="id_phone_number" class="form-label">Número celular</label>
+                                                {{ user_form.phone_number|safe }}
+                                            </div>
+                                    
+                                            <!-- Fecha de nacimiento -->
+                                            <div class="col-md-6 mb-3">
+                                                <label for="id_birthdate" class="form-label">Cumple años</label>
+                                                {{ user_form.birthdate }}
+                                            </div>
+                                            <!-- Foto -->
+                                            
+                                            <div class="col-md-6 mb-3">
+                                                <label for="id_photo" class="form-label">Foto</label>
+                                                
+                                                {% if user_form.instance.photo %}
+                                                    <!-- Si ya hay una foto, solo mostramos el input para cargar una nueva foto sin la ruta ni el checkbox -->
+                                                    <input type="file" name="photo" class="form-control" id="id_photo">
+                                                {% else %}
+                                                    <!-- Si no hay foto, mostramos el campo de carga de foto normal -->
+                                                    {{ user_form.photo }}
+                                                {% endif %}
+                                            </div>
+                                            <!-- Botón de guardar -->
+                                            <div class="col-12 text-center">
+                                                <button class="btn btn-small btn-round-edge btn-base-color btn-box-shadow w-70" name="form_type" value="user" type="submit">Guardar Cambios</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dirección -->
+                    <div class="tab-pane fade in" id="tab_five2">
+                        <div class="row m-0">
+                            <div class="col-12">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-lg-2 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600">Dirección:</div>
+                                        <div class="col-lg-10 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">
+                                            <input 
+                                            class="mb-20px bg-very-light-gray form-control"
+                                            type="text"
+                                            name="address"
+                                            id="id_address"
+                                            placeholder="Ingrese su Dirección"
+                                            required
+                                            value="{{ address_form.address.value|default_if_none:'' }}"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-2 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600">Barrio:</div>
+                                        <div class="col-lg-10 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">
+                                            <input class="mb-20px bg-very-light-gray form-control"
+                                            type="text"
+                                            name="neighborhood"
+                                            id="id_neighborhood"
+                                            placeholder="Ingrese su barrio"
+                                            value="{{ address_form.neighborhood.value|default_if_none:'' }}"
+                                            required/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-2 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600">Información adicional:</div>
+                                        <div class="col-lg-10 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">
+                                            <input class="mb-20px bg-very-light-gray form-control"
+                                            type="text"
+                                            name="additional_information"
+                                            id="id_additional_information"
+                                            placeholder="Edificio, apto, piso .... etc"
+                                            value="{{ address_form.additional_information.value|default_if_none:'' }}"
+                                            required/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-2 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600">Segundo contácto:</div>
+                                        <div class="col-lg-10 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">
+                                            <input class="mb-20px bg-very-light-gray form-control"
+                                            type="text"
+                                            name="secondary_contact"
+                                            id="id_secondary_contact"
+                                            placeholder="Segundo contacto"
+                                            value="{{ address_form.id_secondary_contact.value|default_if_none:'' }}"
+                                            required/>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 text-centermt-2">
+                                        <button class="btn btn-medium btn-round-edge btn-base-color btn-box-shadow w-100" name="form_type" value="user_address" type="submit">Guardar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pedidos -->
+                    <div class="tab-pane fade in" id="tab_five3">
+                        <div class="text-center p-5">
+                            <p class="text-muted">Aquí se mostrarán los pedidos realizados por el usuario.</p>
+                        </div>
+                    </div>
+
+                    <!-- Códigos promocionales -->
+                    <div class="tab-pane fade in" id="tab_five4">
+                        <div class="row justify-content-center">
+                            <div class="col-12">
+                                <div class="p-7 lg-p-5 sm-p-7 bg-very-light-gray">
+                                    <h4 class="alt-font text-dark-gray fw-500 text-center mb-4">Códigos promocionales</h4>
+                                    <form method="post" action="{% url 'users:profile' %}">
+                                        {% csrf_token %}
+                                        {{ promo_form.as_p }}
+                                        <div class="text-end mt-3">
+                                            <button type="submit" name="form_type" value="promo_form" class="btn btn-dark-gray btn-small btn-box-shadow btn-round-edge">Guardar código</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div> <!-- /.tab-content -->
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

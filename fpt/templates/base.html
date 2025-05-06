@@ -63,21 +63,21 @@
     <!-- start header -->
     <header class="header-with-topbar">
       <!-- start header top bar -->
-      <div class="header-top-bar top-bar-light bg-white disable-fixed border-bottom border-color-transparent-dark-very-light">
-        <div class="container-fluid">
-          <div class="row h-45px align-items-center m-0">
-            <div class="col-lg-7 col-md-8 text-center text-md-start">
-              <div class="fs-13 text-dark-gray alt-font fw-600">
-                Registrate ahora y obtendrás un 20% de dcto. <a href="#" class="text-dark-gray fw-700 text-decoration-line-bottom">Shop now</a>
+        <div class="header-top-bar top-bar-light bg-white disable-fixed border-bottom border-color-transparent-dark-very-light">
+          <div class="container-fluid">
+            <div class="row h-45px align-items-center m-0">
+              <div class="col-lg-7 col-md-8 text-center text-md-start">
+                <div class="fs-13 text-dark-gray alt-font fw-600">
+                  Registrate ahora y obtendrás un 20% de dcto. <a href="#" class="text-dark-gray fw-700 text-decoration-line-bottom">Shop now</a>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
       <!-- end header top bar -->
       <!-- start navigation -->
-      <nav class="navbar navbar-expand-lg bg-black responsive-sticky header-demo"
-           data-header-hover="light">
+      <nav class="navbar navbar-expand-lg bg-black responsive-sticky header-demo bg-transparent disable-fixed"
+            data-header-hover="light">
         <div class="container-fluid">
           <div class="col-auto">
             <a class="navbar-brand" href="#">
@@ -109,11 +109,7 @@
                     <a href="{% url 'products:product_list_by_category' category.slug_name %}" class="nav-link">
                       {{ category.name }}
                     </a>
-                    <i class="fa-solid fa-angle-down dropdown-toggle"
-                      id="navbarDropdownMenuLink{{ forloop.counter }}"
-                      role="button"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"></i>
+
                     {% if category.subcategory.all %}
                       <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink{{ forloop.counter }}">
                         {% for sub in category.subcategory.all %}
@@ -175,6 +171,15 @@
                     </li>
                   </ul>
                 </div>
+                {% if not user %}
+                  <div class="widget-text ms-25px md-ms-20px alt-font">
+                    <a href="{% url 'users:login' %}" class="fs-17 fw-600"><i class="fa fa-thin fa-user d-inline-block d-xl-none" style="color: white"></i><span class="d-none d-xl-inline-block" style="color: white">Inicia sesión</span></a>
+                  </div>
+                {% else %}
+                  <div class="widget-text ms-25px md-ms-20px alt-font">
+                    <a href="{% url 'users:profile' %}" class="fs-17 fw-600"><i class="fa fa-thin fa-user d-inline-block d-xl-none" style="color: white"></i><span class="d-none d-xl-inline-block" style="color: white">Mi perfil</span></a>
+                  </div>
+                {% endif %}
               </div>
             </div>
           </div>
