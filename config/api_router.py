@@ -1,12 +1,13 @@
-from django.conf import settings
+# Django
+
+# Rest framework
 from rest_framework.routers import DefaultRouter
-from rest_framework.routers import SimpleRouter
 
-from fpt.users.api.views import UserViewSet
+# Viewsets
+from fpt.orders.api.views.cart import CartItemViewSet
 
-router = DefaultRouter() if settings.DEBUG else SimpleRouter()
-
-router.register("users", UserViewSet)
+router = DefaultRouter()
+router.register(r"cart-items", CartItemViewSet, basename="cart-items")
 
 
 app_name = "api"

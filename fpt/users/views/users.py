@@ -19,6 +19,7 @@ from fpt.users.forms.users import (
 )
 
 # Models
+from fpt.users.models import UserPromotionCode
 
 
 class LoginView(auth_views.LoginView):
@@ -58,48 +59,67 @@ class ProfileView(LoginRequiredMixin, View):
     template_name = "users/profile.html"
 
     def get(self, request, *args, **kwargs):
+        return self.render_forms(
+            user_form=UserForm(instance=request.user),
+            address_form=UserAddressForm(
+                instance=getattr(request.user, "user_address", None)
+            ),
+            promo_form=PromoCodeForm(),
+        )
+
+    def get_context_data(self, **kwargs):
+        context = {
+            "user_codes": UserPromotionCode.objects.filter(user=self.request.user)
+        }
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form_type = request.POST.get("form_type")
         user = request.user
+
         user_form = UserForm(instance=user)
         address_form = UserAddressForm(instance=getattr(user, "user_address", None))
         promo_form = PromoCodeForm()
-        return self.render_forms(user_form, address_form, promo_form)
 
-    def post(self, request, *args, **kwargs):
-        user = request.user
-        user_form = UserForm(request.POST, request.FILES, instance=user)
-        address_form = UserAddressForm(
-            request.POST, instance=getattr(user, "user_address", None)
-        )
-        promo_form = PromoCodeForm(request.POST)
-        form_type = request.POST.get("form_type")
-        if form_type == "user" and user_form.is_valid():
-            user_form.save()
-            messages.success(request, "Perfil actualizado correctamente.")
-            return redirect(reverse_lazy("users:profile"))
+        if form_type == "user":
+            user_form = UserForm(request.POST, request.FILES, instance=user)
+            if user_form.is_valid():
+                user_form.save()
+                messages.success(request, "Perfil actualizado correctamente.")
+                return redirect(reverse_lazy("users:profile"))
+        elif form_type == "user_address":
+            address_form = UserAddressForm(
+                request.POST, instance=getattr(user, "user_address", None)
+            )
+            if address_form.is_valid():
+                address = address_form.save(commit=False)
+                address.user = user
+                address.save()
+                messages.success(request, "Dirección actualizada.")
+                return redirect(reverse_lazy("users:profile"))
+        elif form_type == "user_code":
+            promo_form = PromoCodeForm(request.POST, user=user)
+            if promo_form.is_valid():
+                promo_form.save()
+                messages.success(request, "Código aplicado correctamente.")
+                return redirect(reverse_lazy("users:profile"))
 
-        elif "user_address" and address_form.is_valid():
-            address = address_form.save(commit=False)
-            address.user = user
-            address.save()
-            messages.success(request, "Dirección actualizada.")
-            return redirect(reverse_lazy("users:profile"))
+        return self.render_forms(user_form, address_form, promo_form, form_type)
 
-        elif "apply_code" in request.POST and promo_form.is_valid():
-            # Aquí va la lógica para el código promocional
-            messages.success(request, "Código aplicado correctamente.")
-            return redirect(reverse_lazy("users:profile"))
-
-        else:
-            messages.error(request, "Revisa los errores en el formulario.")
-            return self.render_forms(user_form, address_form, promo_form)
-
-    def render_forms(self, user_form, address_form, promo_form):
-        return render(
-            self.request,
-            self.template_name,
-            {
-                "user_form": user_form,
-                "address_form": address_form,
-                "promo_form": promo_form,
-            },
-        )
+    def render_forms(
+        self, user_form=None, address_form=None, promo_form=None, active_form=None
+    ):
+        context = {
+            "user_form": user_form
+            if active_form == "user"
+            else UserForm(instance=self.request.user),
+            "address_form": address_form
+            if active_form == "user_address"
+            else UserAddressForm(
+                instance=getattr(self.request.user, "user_address", None)
+            ),
+            "promo_form": promo_form if active_form == "user_code" else PromoCodeForm(),
+            "active_tab": active_form,  # <- Nuevo
+        }
+        context.update(self.get_context_data())
+        return render(self.request, self.template_name, context)

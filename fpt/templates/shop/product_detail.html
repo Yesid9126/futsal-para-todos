@@ -100,22 +100,23 @@
                     <ul class="shop-size mb-0 d-flex flex-wrap gap-2">
                         {% for product in product.product_sizes %}
                             <li>
-                                <input class="d-none" type="radio" id="size-{{ product.pk }}" name="size" value="{{ product.pk }}">
-                                <label class="size-option" for="size-{{ product.pk }}">{{ product.size }}</label>
+                                <input class="d-none" type="radio" id="{{ product.pk }}" name="size" value="{{ product.size }}">
+                                <label class="size-option" for="{{ product.pk }}">{{ product.size }}</label>
                             </li>
                         {% endfor %}
                     </ul>
                 </div>
                 <div class="d-flex align-items-center flex-column flex-sm-row mb-20px position-relative">
-                    <div class="quantity me-15px xs-mb-15px order-1">
+                    <div class="quantity me-15px xs-mb-15px order-1" data-stock="{{ product.stock }}">
                         <button type="button" class="qty-minus">-</button>
-                        <input class="qty-text" type="text" id="1" value="1" aria-label="qty-text" />
+                        <input class="qty-text" type="text" id="qty-input-{{ product.id }}" value="1" min="1" aria-label="qty-text" />
                         <button type="button" class="qty-plus">+</button>
                     </div>
-                    <a href="demo-decor-store-cart.html" class="btn btn-cart btn-extra-large btn-switch-text btn-box-shadow btn-none-transform btn-dark-gray left-icon border-radius-5px me-15px xs-me-0 order-3 order-sm-2">
+                    <a class="btn btn-cart btn-extra-large btn-switch-text btn-box-shadow btn-none-transform btn-dark-gray left-icon border-radius-5px me-15px xs-me-0 order-3 order-sm-2"
+                        data-product-id="{{ product.id }}">
                         <span>
                             <span><i class="feather icon-feather-shopping-bag"></i></span>
-                            <span class="btn-double-text" data-text="Agregar al carrito">Agregar al carrito</span>
+                            <span class="btn-double-text add-to-cart-btn" data-text="Agregar al carrito">Agregar al carrito</span>
                         </span>
                     </a>
                 </div>
@@ -483,7 +484,123 @@
             });
         });
     });
+
+    document.querySelectorAll('.quantity').forEach(container => {
+        const minusBtn = container.querySelector('.qty-minus');
+        const plusBtn = container.querySelector('.qty-plus');
+        const input = container.querySelector('.qty-text');
+        const max = parseInt(container.dataset.stock) || 1;
+        const min = 1;
+
+        plusBtn.addEventListener('click', () => {
+            let current = parseInt(input.value) || min;
+            if (current < max) {
+                input.value = current + 1;
+            }
+        });
+
+        minusBtn.addEventListener('click', () => {
+            let current = parseInt(input.value) || min;
+            if (current > min) {
+                input.value = current - 1;
+            }
+        });
+
+        input.addEventListener('input', () => {
+            let value = parseInt(input.value);
+            if (isNaN(value) || value < min) {
+                input.value = min;
+            } else if (value > max) {
+                input.value = max;
+            }
+        });
+    });
+
 </script>
+
+<script>
+    const csrfTokenGlobalValue = '{{ csrf_token }}'
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+            const cookies = document.cookie.split(";");
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === name + "=") {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    let isProcessing = false;
+
+    document.addEventListener("DOMContentLoaded", function () {
+        let isProcessing = false;
+
+        const addToCartButtons = document.querySelectorAll(".add-to-cart-btn");
+        addToCartButtons.forEach(function (button) {
+            button.addEventListener("click", function (e) {
+                e.preventDefault();
+
+                if (isProcessing) return;
+                isProcessing = true;
+
+                const productId = '{{ product.id }}';
+                const quantityInput = document.querySelector(`#qty-input-${productId}`);
+                const quantity = quantityInput ? parseInt(quantityInput.value) : 1;
+
+                const selectedSize = document.querySelector('input[name="size"]:checked');
+                if (!selectedSize) {
+                    alert("Por favor selecciona una talla antes de continuar.");
+                    isProcessing = false;
+                    return;
+                }
+
+                const sizeId = selectedSize.value;
+                const csrftoken = csrfTokenGlobalValue || getCookie("csrftoken");
+
+                fetch("{% url 'api:cart-items-list' %}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json",
+                        "X-CSRFToken": csrftoken,
+                    },
+                    body: JSON.stringify({
+                        product: productId,
+                        size: sizeId,
+                        quantity: quantity,
+                    }),
+                })
+                .then(async (response) => {
+                    const text = await response.text();
+                    console.log("Respuesta cruda:", text);
+
+                    try {
+                        const json = JSON.parse(text);
+                        console.log("JSON parseado:", json);
+                    } catch (e) {
+                        console.error("No se pudo parsear JSON:", e);
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                })
+                .finally(() => {
+                    isProcessing = false;
+                });
+            });
+        });
+    });
+
+
+</script>
+
+
 {% endblock js %}
 
 {% endblock %}

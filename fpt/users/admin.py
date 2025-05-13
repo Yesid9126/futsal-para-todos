@@ -3,7 +3,7 @@ from django.contrib.auth import admin as auth_admin
 from django.utils.translation import gettext_lazy as _
 
 from fpt.users.forms.users import UserChangeForm
-from .models import User, UserAddress
+from .models import User, UserAddress, CodePromotion, UserPromotionCode
 
 
 class UserAddressInline(admin.StackedInline):
@@ -52,3 +52,17 @@ class UserAdmin(auth_admin.UserAdmin):
     inlines = [
         UserAddressInline,
     ]
+
+
+@admin.register(CodePromotion)
+class CodePromotionAdmin(admin.ModelAdmin):
+    """Code promotion admin"""
+
+    list_display = ["name", "date_init", "date_end"]
+
+
+@admin.register(UserPromotionCode)
+class CodePromotionUserAdmin(admin.ModelAdmin):
+    """Code promotion admin"""
+
+    list_display = ["user", "promotion_code", "is_used"]

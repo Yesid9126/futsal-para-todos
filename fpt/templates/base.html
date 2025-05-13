@@ -15,12 +15,6 @@
     <link rel="apple-touch-icon" href="#" />
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" />
-    <link rel="apple-touch-icon"
-          sizes="72x72"
-          href="images/apple-touch-icon-72x72.png" />
-    <link rel="apple-touch-icon"
-          sizes="114x114"
-          href="images/apple-touch-icon-114x114.png" />
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
           integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
@@ -134,42 +128,46 @@
             <div class="header-icon">
               <div class="header-cart-icon icon">
                 <div class="header-cart dropdown">
-                  <a href="javascript:void(0);"><i class="fa fa-thin fa-bag-shopping" style="color: white"></i><span class="cart-count alt-font">2</span></a>
-                  <ul class="cart-item-list">
-                    <li class="cart-item align-items-center">
-                      <a href="javascript:void(0);" class="alt-font close">×</a>
-                      <div class="product-image">
-                        <a href="#">
-                          <img src="https://placehold.co/600x700" class="cart-thumb" alt="" />
-                        </a>
-                      </div>
-                      <div class="product-detail alt-font fw-600">
-                        <a href="#">Table clock</a>
-                        <span class="item-ammount fw-500">1 x $23.00</span>
-                      </div>
-                    </li>
-                    <li class="cart-item align-items-center">
-                      <a href="javascript:void(0);" class="alt-font close">×</a>
-                      <div class="product-image">
-                        <a href="#">
-                          <img src="https://placehold.co/600x700" class="cart-thumb" alt="" />
-                        </a>
-                      </div>
-                      <div class="product-detail alt-font fw-600">
-                        <a href="#">Ceramic mug</a>
-                        <span class="item-ammount fw-500">2 x $15.00</span>
-                      </div>
-                    </li>
-                    <li class="cart-total">
-                      <div class="alt-font mb-15px">
-                        <span class="w-50 fw-500">Subtotal:</span><span class="w-50 text-end fw-700">$199.99</span>
-                      </div>
-                      <a href="demo-decor-store-cart.html"
-                         class="btn btn-large btn-transparent-base-color border-color-extra-medium-gray btn-round-edge">View cart</a>
-                      <a href="#"
-                         class="btn btn-large btn-base-color btn-box-shadow btn-round-edge">Checkout</a>
-                    </li>
-                  </ul>
+                    <a href="javascript:void(0);">
+                      <i class="fa fa-thin fa-bag-shopping" style="color: white"></i>
+                        <span class="cart-count alt-font">{{cart_items.count|default:0}}</span>
+                    </a>
+                    <ul class="cart-item-list">
+                      {% if cart_items %}
+                        {% for item in cart_items %}
+                          <li class="cart-item align-items-center">
+                            <div class="product-image">
+                              <a href="#">
+                                {% if item.product.principal_image and item.product.principal_image.0 %}
+                                  <img src="{{ item.product.principal_image.0.image.url }}" class="cart-thumb" alt="" />
+                                {% else %}
+                                  <img src="https://placehold.co/600x700" class="cart-thumb" alt="" />
+                                {% endif %}
+                              </a>
+                            </div>
+                            <div class="product-detail alt-font fw-600">
+                              <a href="#">{{item.product.name}}</a>
+                              <span class="item-ammount fw-500">{{item.quantity}} x {{item.subtotal}}</span>
+                            </div>
+                          </li>
+                        {% endfor %}
+                        <li class="cart-total">
+                          <div class="alt-font mb-15px">
+                            <span class="w-50 fw-500">Subtotal:</span><span class="w-50 text-end fw-700">{{subtotal}}</span>
+                          </div>
+                          <a href="demo-decor-store-cart.html"
+                            class="btn btn-large btn-transparent-base-color border-color-extra-medium-gray btn-round-edge">Ver carrito</a>
+                          <a href="#"
+                            class="btn btn-large btn-base-color btn-box-shadow btn-round-edge">Pagar</a>
+                        </li>
+                      {% else %}
+                        <li class="cart-total">
+                            <div class="alt-font mb-15px">
+                              <span class="">No has seleccionado ningún producto.</span>
+                            </div>
+                        </li>
+                      {% endif %}
+                    </ul>
                 </div>
                 {% if not user %}
                   <div class="widget-text ms-25px md-ms-20px alt-font">

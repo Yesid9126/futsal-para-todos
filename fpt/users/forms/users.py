@@ -8,9 +8,10 @@ from django.contrib.auth import (
 from django.contrib.auth import forms as admin_forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
 
 # Models
-from fpt.users.models import User, UserAddress
+from fpt.users.models import User, UserAddress, CodePromotion, UserPromotionCode
 
 
 class UserChangeForm(admin_forms.UserChangeForm):
@@ -277,6 +278,41 @@ class UserAddressForm(forms.ModelForm):
 
 
 class PromoCodeForm(forms.Form):
-    promo_code = forms.CharField(
-        label="Código Promocional", max_length=100, required=False
+    name = forms.CharField(
+        label="Código promocional",
+        max_length=100,
+        widget=forms.TextInput(attrs={"placeholder": "Introduce tu código"}),
     )
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop("user", None)
+        super().__init__(*args, **kwargs)
+
+    def clean_name(self):
+        name = self.cleaned_data.get("name")
+        today = timezone.now().date()
+
+        try:
+            code = CodePromotion.objects.get(name__iexact=name)
+        except CodePromotion.DoesNotExist:
+            raise ValidationError("El código promocional no existe.")
+
+        if not (code.date_init <= today <= code.date_end):
+            raise ValidationError(
+                "El código promocional ha expirado o aún no es válido."
+            )
+
+        if UserPromotionCode.objects.filter(
+            user=self.user, promotion_code=code
+        ).exists():
+            raise ValidationError("Ya has utilizado este código promocional.")
+
+        self.cleaned_data["code_obj"] = code
+        return name
+
+    def save(self):
+        code = self.cleaned_data["code_obj"]
+        return UserPromotionCode.objects.create(
+            user=self.user,
+            promotion_code=code,
+        )

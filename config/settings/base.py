@@ -84,6 +84,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "fpt.users",
     "fpt.products",
+    "fpt.orders",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

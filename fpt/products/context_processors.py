@@ -1,11 +1,45 @@
 # Django
-from django.db.models import Count
+from django.db.models import Count, Prefetch
 
 # Models
-from fpt.products.models import Category
+from fpt.products.models import Category, ProductImage
+from fpt.orders.models import Cart
 
 
 def category_context(request):
+    if request.user.is_authenticated:
+        cart = (
+            Cart.objects.filter(user=request.user, is_active=True, status="OPEN")
+            .prefetch_related(
+                "cart_item",
+                "cart_item__product",
+                Prefetch(
+                    "cart_item__product__images",
+                    queryset=ProductImage.objects.filter(is_principal=True),
+                    to_attr="principal_image",
+                ),
+            )
+            .first()
+        )
+    else:
+        session_key = request.session.session_key or request.session.create()
+        cart = (
+            Cart.objects.filter(
+                session_key=session_key, user=None, is_active=True, status="OPEN"
+            )
+            .prefetch_related(
+                "cart_item",
+                "cart_item__product",
+                Prefetch(
+                    "cart_item__product__images",
+                    queryset=ProductImage.objects.filter(is_principal=True),
+                    to_attr="principal_image",
+                ),
+            )
+            .first()
+        )
+    cart_items = cart.cart_item.all() if cart else None
+    subtotal = sum(item.subtotal for item in cart_items) if cart_items else None
     subcategories_menu = {}
     url_kwargs = request.resolver_match.captured_kwargs
     categories = (
@@ -28,4 +62,7 @@ def category_context(request):
         "categories_menu": categories,
         "subcategories_menu": subcategories_menu,
         "user": user,
+        "cart": cart,
+        "cart_items": cart_items,
+        "subtotal": subtotal,
     }
