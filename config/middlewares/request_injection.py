@@ -5,7 +5,7 @@ from fpt.products.models import ProductImage
 from fpt.orders.models import Cart
 
 # Django
-from django.db.models import Prefetch, OuterRef, Subquery, IntegerField
+from django.db.models import Prefetch
 
 
 class RequestInjectionMiddleware:
@@ -30,7 +30,9 @@ class RequestInjectionMiddleware:
             )
         else:
             cart = (
-                Cart.objects.filter(session_key=session_key, user=None, is_active=True, status="OPEN")
+                Cart.objects.filter(
+                    session_key=session_key, user=None, is_active=True, status="OPEN"
+                )
                 .prefetch_related(
                     "cart_item",
                     "cart_item__product",

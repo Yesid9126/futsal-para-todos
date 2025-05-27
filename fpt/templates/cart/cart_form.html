@@ -29,7 +29,7 @@
                                     </thead>
                                     <tbody>
                                         {% for item in cart_items %}
-                                            <tr class="cart-item-row" data-cart-item-id="{{ item.id }}"> 
+                                            <tr class="cart-item-row" data-cart-item-id="{{ item.id }}">
                                                 <td class="product-remove">
                                                     <a href="#" class="fs-20 fw-500 remove-cart-item" data-id="{{ item.id }}">×</a>
                                                 </td>
@@ -37,15 +37,15 @@
                                                     <a href="demo-decor-store-single-product.html"><img class="cart-product-image" src="{{ item.product.principal_image.0.image.url }}" alt=""></a>
                                                 </td>
                                                 <td class="product-name">
-                                                    <a href="demo-decor-store-single-product.html" class="text-dark-gray fw-500 d-block lh-initial">{{ item.product.name }}</a> 
+                                                    <a href="demo-decor-store-single-product.html" class="text-dark-gray fw-500 d-block lh-initial">{{ item.product.name }}</a>
                                                     <span class="fs-14">Talla: {{ item.size }}</span>
                                                 </td>
                                                 <td class="product-price" data-title="Price">${{ item.product.price|intcomma }}</td>
                                                 <td class="product-quantity" data-title="Quantity">
                                                     <div class="quantity me-15px xs-mb-15px order-1" data-stock="{{ item.product.stock }}">
                                                         <button type="button" class="qty-minus">-</button>
-                                                        <input class="qty-text" type="text" id="qty-input-{{ item.product.id }}" 
-                                                            
+                                                        <input class="qty-text" type="text" id="qty-input-{{ item.product.id }}"
+
                                                             value="{{ item.quantity }}"
                                                             min="1"
                                                             aria-label="qty-text"

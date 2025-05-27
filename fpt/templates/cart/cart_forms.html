@@ -56,8 +56,8 @@
                                                 <td class="product-quantity" data-title="Quantity">
                                                     <div class="quantity me-15px xs-mb-15px order-1" data-stock="{{ form.instance.product.stock }}">
                                                         <button type="button" class="qty-minus">-</button>
-                                                        <input class="qty-text" type="text" id="qty-input-{{ form.instance.product.id }}"  
-                                                            name="form-{{ forloop.counter0 }}-quantity"    
+                                                        <input class="qty-text" type="text" id="qty-input-{{ form.instance.product.id }}"
+                                                            name="form-{{ forloop.counter0 }}-quantity"
                                                             value="{{ form.instance.quantity }}"
                                                             min="1"
                                                             aria-label="qty-text"
