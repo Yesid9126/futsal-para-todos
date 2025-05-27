@@ -19,8 +19,20 @@ from fpt.users.authentication import (
 urlpatterns = [
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
+    # API base url
+    path("api/", include("config.api_router")),
+    # DRF auth token
+    path("api/auth-token/", obtain_auth_token),
+    path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),
+    path(
+        "api/docs/",
+        SpectacularSwaggerView.as_view(url_name="api-schema"),
+        name="api-docs",
+    ),
     # User management
     path("", include("fpt.users.urls", namespace="users")),
+    path("", include("fpt.orders.urls", namespace="orders")),
+    path("", include("fpt.products.urls", namespace="products")),
     path("password_reset/", PasswordResetCustomView.as_view(), name="password_reset"),
     path(
         "password_reset/done/",
@@ -37,25 +49,10 @@ urlpatterns = [
         views.PasswordResetCompleteView.as_view(),
         name="password_reset_complete",
     ),
-    path("", include("fpt.products.urls", namespace="products")),
     # Your stuff: custom urls includes go here
     # ...
     # Media files
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
-]
-
-# API URLS
-urlpatterns += [
-    # API base url
-    path("api/", include("config.api_router")),
-    # DRF auth token
-    path("api/auth-token/", obtain_auth_token),
-    path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),
-    path(
-        "api/docs/",
-        SpectacularSwaggerView.as_view(url_name="api-schema"),
-        name="api-docs",
-    ),
 ]
 
 if settings.DEBUG:

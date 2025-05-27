@@ -15,10 +15,26 @@
         <div class="row g-0 justify-content-center">
             <div class="col-12 tab-style-04 section-login">
                 <ul class="nav nav-tabs border-0 justify-content-center alt-font fs-19">
-                    <li class="nav-item"><a data-bs-toggle="tab" href="#tab_five1" class="nav-link active">Perfil<span class="tab-border bg-dark-gray"></span></a></li>
-                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab_five2">Dirección<span class="tab-border bg-dark-gray"></span></a></li>
-                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab_five3">Pedidos<span class="tab-border bg-dark-gray"></span></a></li>
-                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab_five4">Códigos promocionales<span class="tab-border bg-dark-gray"></span></a></li>
+                    <li class="nav-item">
+                        <a data-bs-toggle="tab" href="#tab_five1" class="nav-link {% if active_tab == 'user' or not active_tab %}active{% endif %}">
+                            Perfil<span class="tab-border bg-dark-gray"></span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a data-bs-toggle="tab" href="#tab_five2" class="nav-link {% if active_tab == 'user_address' %}active{% endif %}">
+                            Dirección<span class="tab-border bg-dark-gray"></span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a data-bs-toggle="tab" href="#tab_five3" class="nav-link {% if active_tab == 'orders' %}active{% endif %}">
+                            Pedidos<span class="tab-border bg-dark-gray"></span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a data-bs-toggle="tab" href="#tab_five4" class="nav-link {% if active_tab == 'user_code' %}active{% endif %}">
+                            Códigos promocionales<span class="tab-border bg-dark-gray"></span>
+                        </a>
+                    </li>
                 </ul>
                 <div class="mb-5 h-1px w-100 bg-extra-medium-gray sm-mt-10px xs-mb-8"></div>
                 <div class="tab-content">
@@ -31,7 +47,7 @@
                         {% endfor %}
                     {% endif %}
                     <!-- Perfil -->
-                    <div class="tab-pane fade in active show" id="tab_five1">
+                    <div class="tab-pane fade {% if active_tab == 'user' or not active_tab %}in active show{% endif %}" id="tab_five1">
                         <div class="row justify-content-center">
                             <div class="col-12">
                                 <div class="p-7 lg-p-5 sm-p-7 bg-very-light-gray">
@@ -118,7 +134,7 @@
                     </div>
 
                     <!-- Dirección -->
-                    <div class="tab-pane fade in" id="tab_five2">
+                    <div class="tab-pane fade {% if active_tab == 'user_address' %}in active show{% endif %}" id="tab_five2">
                         <div class="row m-0">
                             <div class="col-12">
                                 <form method="post">
@@ -173,8 +189,8 @@
                                             required/>
                                         </div>
                                     </div>
-                                    <div class="col-12 text-centermt-2">
-                                        <button class="btn btn-medium btn-round-edge btn-base-color btn-box-shadow w-100" name="form_type" value="user_address" type="submit">Guardar</button>
+                                    <div class="col-12 text-center mt-2">
+                                        <button class="btn btn-small btn-round-edge btn-base-color btn-box-shadow w-70" name="form_type" value="user_address" type="submit">Guardar</button>
                                     </div>
                                 </form>
                             </div>
@@ -182,25 +198,72 @@
                     </div>
 
                     <!-- Pedidos -->
-                    <div class="tab-pane fade in" id="tab_five3">
+                    <div class="tab-pane fade {% if active_tab == 'orders' %}in active show{% endif %}" id="tab_five3">
                         <div class="text-center p-5">
                             <p class="text-muted">Aquí se mostrarán los pedidos realizados por el usuario.</p>
                         </div>
                     </div>
 
                     <!-- Códigos promocionales -->
-                    <div class="tab-pane fade in" id="tab_five4">
+                    <div class="tab-pane fade {% if active_tab == 'user_code' %}in active show{% endif %}" id="tab_five4">
                         <div class="row justify-content-center">
                             <div class="col-12">
-                                <div class="p-7 lg-p-5 sm-p-7 bg-very-light-gray">
+                                <div class="p-7 lg-p-5 sm-p-7">
+                                    {% if promo_form.errors %}
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <ul class="mb-0">
+                                            {% for field in promo_form %}
+                                                {% for error in field.errors %}
+                                                <li>{{ error }}</li>
+                                                {% endfor %}
+                                            {% endfor %}
+                                            {% for error in promo_form.non_field_errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                            </ul>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    {% endif %}
                                     <h4 class="alt-font text-dark-gray fw-500 text-center mb-4">Códigos promocionales</h4>
-                                    <form method="post" action="{% url 'users:profile' %}">
+                                    <div class="text-center">
+                                        <p class="text-muted">Si tienes un código de promoción los puedes validar acá y hacerlo efectivo.</p>
+                                    </div>
+                                    <form method="post">
                                         {% csrf_token %}
-                                        {{ promo_form.as_p }}
-                                        <div class="text-end mt-3">
-                                            <button type="submit" name="form_type" value="promo_form" class="btn btn-dark-gray btn-small btn-box-shadow btn-round-edge">Guardar código</button>
+                                        <div class="col-md-12 mb-3">
+                                            <label for="id_name" class="form-label">Código</label>
+                                            <input type="text" name="name" value="futsalparatodos" maxlength="100" required="" aria-invalid="true" id="id_name">
+                                        </div>
+                                        <div class="col-12 text-center">
+                                            <button type="submit" name="form_type" value="user_code" class="btn btn-small btn-round-edge btn-base-color btn-box-shadow w-70">Validar</button>
                                         </div>
                                     </form>
+                                    <div class="row justify-content-center mt-5">
+                                        <div class="bg-very-light-gray border-radius-6px p-50px lg-p-25px your-order-box">
+                                            <span class="fs-26 alt-font fw-600 text-dark-gray mb-5px d-block">Tus códigos</span>
+                                            <table class="w-100 total-price-table your-order-table">
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="w-60 lg-w-55 xs-w-50 fw-600 text-dark-gray alt-font">Código</th>
+                                                        <td class="fw-600 text-dark-gray alt-font text-center">Fue usado?</td>
+                                                    </tr>
+                                                    {% for code in user_codes %}
+                                                    <tr class="product">
+                                                        <td class="product-thumbnail">
+                                                            <a href="demo-decor-store-single-product.html" class="text-dark-gray fw-500 d-block lh-initial">{{code.promotion_code.name|safe}}</a>
+                                                            <span class="fs-14 d-block">{{code.created|date}}</span>
+                                                        </td>
+                                                        {% if code.is_used %}
+                                                            <td class="product-price text-center" data-title="Price">Si</td>
+                                                        {% else %}
+                                                            <td class="product-price text-center" data-title="Price">No</td>
+                                                        {% endif %}
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

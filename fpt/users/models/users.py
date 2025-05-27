@@ -94,3 +94,41 @@ class UserAddress(FptBaseModel):
 
     def __str__(self):
         return f"User address {self.address}"
+
+
+class CodePromotion(FptBaseModel):
+    """code promotion"""
+
+    name = models.CharField(max_length=100)
+    date_init = models.DateField()
+    date_end = models.DateField()
+
+    def __str__(self):
+        return f"Code promotion {self.name}"
+
+    class Meta:
+        """Meta option."""
+
+        verbose_name = "Código promocional"
+        verbose_name_plural = "Codigos promocionales"
+
+
+class UserPromotionCode(FptBaseModel):
+    """User promotion code"""
+
+    user = models.OneToOneField(
+        "users.User", on_delete=models.CASCADE, related_name="user_code"
+    )
+    promotion_code = models.ForeignKey(
+        CodePromotion, on_delete=models.CASCADE, related_name="user_code"
+    )
+    is_used = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"User code for {self.user.first_name} - code {self.promotion_code.name}"
+
+    class Meta:
+        """Meta option."""
+
+        verbose_name = "Código de usuario"
+        verbose_name_plural = "Codigos de usuario"

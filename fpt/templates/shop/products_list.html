@@ -31,12 +31,6 @@
         <div class="row flex-row-reverse">
             <div class="col-xxl-10 col-lg-9 ps-5 md-ps-15px md-mb-60px">
                 <div class="toolbar-wrapper border-bottom border-color-extra-medium-gray d-flex flex-column flex-sm-row align-items-center w-100 mb-40px md-mb-30px pb-15px" data-anime='{ "translateY": [0, 0], "opacity": [0,1], "duration": 600, "delay":50, "staggervalue": 150, "easing": "easeOutQuad" }'>
-                    <div class="xs-mb-10px">
-                        <a href="#" class="me-10px"><img src="images/shop-two-column.svg" class="opacity-5" alt="" /></a>
-                        <a href="#" class="me-10px"><img src="images/shop-three-column.svg" class="opacity-5" alt="" /></a>
-                        <a href="#" class="me-10px"><img src="images/shop-four-column.svg" class="opacity-5" alt="" /></a>
-                        <a href="#"><img src="images/shop-list.svg" class="opacity-5" alt="" /></a>
-                    </div>
                     <div class="ms-20px xs-ms-0">
                         {% if total_products >  products.object_list.count %}Mostrando 1 - {{products.object_list.count}} de {{total_products}} resultados {% else %}Mostrando {{products.object_list.count}} resultados{% endif %}
                     </div>
@@ -57,21 +51,9 @@
                                 {% endif %}
                                 <div class="product-overlay bg-gradient-extra-midium-gray-transparent"></div>
                                 </a>
-                                <div class="shop-hover d-flex justify-content-center">
-                                <a href="#"
-                                    class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                                    data-bs-toggle="tooltip"
-                                    data-bs-placement="top"
-                                    title="Añadir al carrito"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                                <a href="{% url 'products:product_detail' product.slug_name %}"
-                                    class="bg-white w-45px h-45px text-dark-gray d-flex flex-column align-items-center justify-content-center rounded-circle ms-5px me-5px box-shadow-medium-bottom"
-                                    data-bs-toggle="tooltip"
-                                    data-bs-placement="top"
-                                    title="Ver detalle"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                </div>
                             </div>
                             <div class="shop-footer text-center pt-20px">
-                                <a href="demo-decor-store-single-product.html"
+                                <a href="{% url 'products:product_detail' product.slug_name %}"
                                 class="text-dark-gray fs-17 alt-font fw-600">{{ product.name }}</a>
                                 <div class="fw-500 fs-15 lh-normal">
                                 {% if product.percentage_discount > 0 %}
@@ -149,7 +131,12 @@
                     <span class="alt-font fw-600 fs-17 text-dark-gray d-block mb-10px">Filtrar por marca</span>
                     <ul class="fs-15 shop-filter fabric-filter">
                         {% for brand in brands %}
-                            <li><a href="{{ base_url }}?brand={{ brand.brand__name|urlencode }}"><span class="product-cb product-fabric-cb"></span>{{brand.brand__name}}</a><span class="item-qty">{{ brand.total_products_by_brand }}</span></li>
+                            <li>
+                                <a href="{{ base_url }}?brand={{ brand.brand__name|urlencode }}">
+                                    <span class="product-cb product-fabric-cb"></span>{{brand.brand__name}}
+                                </a>
+                                <span class="item-qty">{{ brand.total_products_by_brand }}</span>
+                            </li>
                         {% endfor %}
                     </ul>
                 </div>

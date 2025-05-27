@@ -17,12 +17,12 @@ urlpatterns = [
         name="product_detail",
     ),
     path(
-        route="<slug:category_slug>/",
+        route="categoria/<slug:category_slug>/",
         view=ProductListView.as_view(),
         name="product_list_by_category",
     ),
     path(
-        route="<slug:category_slug>/<slug:subcategory_slug>/",
+        route="categoria/<slug:category_slug>/<slug:subcategory_slug>/",
         view=ProductListView.as_view(),
         name="product_list_by_subcategory",
     ),

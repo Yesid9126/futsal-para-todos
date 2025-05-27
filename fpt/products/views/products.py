@@ -62,12 +62,18 @@ class ProductListView(BaseFilterMixin, ListView):
         brand_info = products.values("brand__name").annotate(
             total_products_by_brand=Count("id")
         )
-        if "subcategory_slug" in self.kwargs:
-            base_url = False
+        if "subcategory_slug" in self.kwargs and "category_slug" in self.kwargs:
+            base_url = reverse_lazy(
+                "products:product_list_by_subcategory",
+                kwargs={
+                    "category_slug": self.kwargs.get("category_slug"),
+                    "subcategory_slug": self.kwargs.get("subcategory_slug"),
+                },
+            )
         elif "category_slug" in self.kwargs:
             base_url = reverse_lazy(
                 "products:product_list_by_category",
-                kwargs={"category_slug": self.kwargs["category_slug"]},
+                kwargs={"category_slug": self.kwargs.get("category_slug")},
             )
         if brand_name:
             products = products.filter(brand__name=brand_name)
