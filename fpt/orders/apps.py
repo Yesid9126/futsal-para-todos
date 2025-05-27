@@ -4,6 +4,5 @@ from django.utils.translation import gettext_lazy as _
 
 
 class OrdersConfig(AppConfig):
-    
-    name = 'fpt.orders'
+    name = "fpt.orders"
     varbose_name = _("Orders")

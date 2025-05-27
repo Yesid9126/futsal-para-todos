@@ -555,7 +555,10 @@
 
                 const selectedSize = document.querySelector('input[name="size"]:checked');
                 if (!selectedSize) {
-                    alert("Por favor selecciona una talla antes de continuar.");
+                    Swal.fire({
+                        icon: "info",
+                        text: "Por favor selecciona una talla antes de continuar.",
+                    });
                     isProcessing = false;
                     return;
                 }
@@ -578,11 +581,66 @@
                 })
                 .then(async (response) => {
                     const text = await response.text();
-                    console.log("Respuesta cruda:", text);
-
                     try {
                         const json = JSON.parse(text);
                         console.log("JSON parseado:", json);
+
+                        // Referencia al <ul class="cart-item-list">
+                        const cartList = document.querySelector(".cart-item-list");
+
+                        // Crear el <li> del producto
+                        const itemLi = document.createElement("li");
+                        itemLi.className = "cart-item align-items-center";
+
+                        itemLi.innerHTML = `
+                            <div class="product-image">
+                                <a href="#">
+                                    <img src="${json.product_image || 'https://placehold.co/600x700'}" class="cart-thumb" alt="" />
+                                </a>
+                            </div>
+                            <div class="product-detail alt-font fw-600">
+                                <a href="#">${json.product_name}</a>
+                                <span class="item-ammount fw-500">${json.quantity} x ${json.price}</span>
+                            </div>
+                        `;
+
+                        const existingCartTotal = cartList.querySelector(".cart-total");
+                        if (existingCartTotal) {
+                            cartList.insertBefore(itemLi, existingCartTotal);
+                        } else {
+                            cartList.appendChild(itemLi);
+                        }
+
+                        if (existingCartTotal) {
+                            existingCartTotal.remove();
+                        }
+
+                        const cartTotalLi = document.createElement("li");
+                        cartTotalLi.className = "cart-total";
+                        cartTotalLi.innerHTML = `
+                            <div class="alt-font mb-15px">
+                            </div>
+                            <a href="/carrito/" class="btn btn-large btn-transparent-base-color border-color-extra-medium-gray btn-round-edge">Ver carrito</a>
+                            <a href="/ruta-al-checkout/" class="btn btn-large btn-base-color btn-box-shadow btn-round-edge">Pagar</a>
+                        `;
+
+                        cartList.appendChild(cartTotalLi);
+
+                        // Actualizar el contador de ítems del carrito
+                        const cartCount = document.querySelector(".cart-count");
+                        if (cartCount) {
+                            cartCount.textContent = 1;
+                        }
+                        const cartLink = cartCount.closest("a");
+                        if (cartLink) {
+                            cartLink.setAttribute("href", "/carrito/");  // O usa el valor correcto de cart_update si sabes la URL
+                        }
+
+                        const headerCart = document.querySelector(".header-cart");
+                        if (headerCart) {
+                            headerCart.classList.add("open");
+                        }
+
                     } catch (e) {
                         console.error("No se pudo parsear JSON:", e);
                     }

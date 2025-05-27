@@ -17,7 +17,12 @@ class OrderAdmin(admin.ModelAdmin):
     """Order model admin."""
 
     list_display = ["user", "cart", "total", "status"]
-    search_fields = ["user__email", "user__first_name", "user__last_name", "user__phone_number"]
+    search_fields = [
+        "user__email",
+        "user__first_name",
+        "user__last_name",
+        "user__phone_number",
+    ]
     list_filter = ["status"]
 
 
@@ -26,7 +31,12 @@ class CartAdmin(admin.ModelAdmin):
     """Cart model admin."""
 
     list_display = ["user", "status", "session_key", "is_active"]
-    search_fields = ["user__email", "user__first_name", "user__last_name", "user__phone_number"]
+    search_fields = [
+        "user__email",
+        "user__first_name",
+        "user__last_name",
+        "user__phone_number",
+    ]
     list_filter = ["status"]
     ordering = ["created"]
     inlines = [CartItemInline]

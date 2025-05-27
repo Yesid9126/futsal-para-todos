@@ -31,12 +31,6 @@
         <div class="row flex-row-reverse">
             <div class="col-xxl-10 col-lg-9 ps-5 md-ps-15px md-mb-60px">
                 <div class="toolbar-wrapper border-bottom border-color-extra-medium-gray d-flex flex-column flex-sm-row align-items-center w-100 mb-40px md-mb-30px pb-15px" data-anime='{ "translateY": [0, 0], "opacity": [0,1], "duration": 600, "delay":50, "staggervalue": 150, "easing": "easeOutQuad" }'>
-                    <div class="xs-mb-10px">
-                        <a href="#" class="me-10px"><img src="images/shop-two-column.svg" class="opacity-5" alt="" /></a>
-                        <a href="#" class="me-10px"><img src="images/shop-three-column.svg" class="opacity-5" alt="" /></a>
-                        <a href="#" class="me-10px"><img src="images/shop-four-column.svg" class="opacity-5" alt="" /></a>
-                        <a href="#"><img src="images/shop-list.svg" class="opacity-5" alt="" /></a>
-                    </div>
                     <div class="ms-20px xs-ms-0">
                         {% if total_products >  products.object_list.count %}Mostrando 1 - {{products.object_list.count}} de {{total_products}} resultados {% else %}Mostrando {{products.object_list.count}} resultados{% endif %}
                     </div>
@@ -137,7 +131,12 @@
                     <span class="alt-font fw-600 fs-17 text-dark-gray d-block mb-10px">Filtrar por marca</span>
                     <ul class="fs-15 shop-filter fabric-filter">
                         {% for brand in brands %}
-                            <li><a href="{{ base_url }}?brand={{ brand.brand__name|urlencode }}"><span class="product-cb product-fabric-cb"></span>{{brand.brand__name}}</a><span class="item-qty">{{ brand.total_products_by_brand }}</span></li>
+                            <li>
+                                <a href="{{ base_url }}?brand={{ brand.brand__name|urlencode }}">
+                                    <span class="product-cb product-fabric-cb"></span>{{brand.brand__name}}
+                                </a>
+                                <span class="item-qty">{{ brand.total_products_by_brand }}</span>
+                            </li>
                         {% endfor %}
                     </ul>
                 </div>
