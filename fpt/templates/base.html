@@ -39,6 +39,7 @@
     <link rel="stylesheet" href="{% static 'css/style.min.css' %}" />
     <link rel="stylesheet" href="{% static 'css/responsive.min.css' %}" />
     <link rel="stylesheet" href="{% static 'css/decor-store.css' %}" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
   </head>
   <style>
     .navbar-expand-lg .navbar-collapse {
@@ -157,7 +158,7 @@
                           </div>
                           <a href="{% if cart %}{% url 'orders:cart_update' %}{% else %}#{% endif %}"
                             class="btn btn-large btn-transparent-base-color border-color-extra-medium-gray btn-round-edge">Ver carrito</a>
-                          <a href="#"
+                          <a href="{% url 'orders:checkout' %}"
                             class="btn btn-large btn-base-color btn-box-shadow btn-round-edge">Pagar</a>
                         </li>
                       {% else %}
@@ -359,6 +360,7 @@
             src="{% static 'js/revolution/revolution.extension.slideanims.min.js' %}"></script>
     <script type="text/javascript"
             src="{% static 'js/revolution/revolution.extension.migration.min.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script type="text/javascript">
       jQuery(document).ready(function() {
         jQuery("#decor-store-slider").show().revolution({
@@ -469,6 +471,7 @@
           },
         });
       });
+      
     </script>
     <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
   </body>

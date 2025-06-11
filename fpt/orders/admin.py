@@ -2,13 +2,20 @@
 from django.contrib import admin
 
 # Models
-from fpt.orders.models import Order, Cart, CartItem
+from fpt.orders.models import Order, Cart, CartItem, Country, Department
 
 
 class CartItemInline(admin.StackedInline):
     """SubCategory inline admin."""
 
     model = CartItem
+    extra = 1
+
+
+class DepartmentInline(admin.StackedInline):
+    """Department inline admin."""
+
+    model = Department
     extra = 1
 
 
@@ -40,3 +47,11 @@ class CartAdmin(admin.ModelAdmin):
     list_filter = ["status"]
     ordering = ["created"]
     inlines = [CartItemInline]
+
+
+@admin.register(Country)
+class CouuntryAdmin(admin.ModelAdmin):
+    """Order model admin."""
+
+    list_display = ["name", "code"]
+    inlines = [DepartmentInline]

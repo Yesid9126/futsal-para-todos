@@ -85,7 +85,25 @@ class FutsalModel(models.Model):
 
 class UserAddress(FptBaseModel):
     user = models.OneToOneField(
-        "users.User", on_delete=models.CASCADE, related_name="user_address"
+        "users.User",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="user_address"
+    )
+    country = models.ForeignKey(
+        "orders.Country",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="user_addresses"
+    )
+    department = models.ForeignKey(
+        "orders.Department",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="user_addresses"
     )
     address = models.CharField(max_length=500, blank=True, null=True)
     neighborhood = models.CharField(max_length=500, blank=True, null=True)

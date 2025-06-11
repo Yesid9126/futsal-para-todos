@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load humanize %}
+
+{% block title %}Futsal para todos{% endblock %}
+
+{% block content %}
+<section class="top-space-margin border-top border-color-extra-medium-gray pt-20px pb-20px ps-45px pe-45px lg-ps-35px lg-pe-35px md-ps-15px md-pe-15px sm-ps-0 sm-pe-0">
+    <div class="container">
+        <div class="row justify-content-center mb-8 lg-mb-10 align-items-center">
+            <div class="col-auto icon-with-text-style-08 lg-mb-10px">
+                <div class="feature-box feature-box-left-icon">
+                    <div class="feature-box-icon me-5px">
+                        <i class="feather icon-feather-user top-9px position-relative text-dark-gray icon-small"></i>
+                    </div>
+                    <div class="feature-box-content">
+                        <span class="d-inline-block text-dark-gray align-middle alt-font fw-500">Returning customer? <a href="#" class="text-decoration-line-bottom fw-600 text-dark-gray">Click here to login</a></span> 
+                    </div>
+                </div>
+            </div>
+            <div class="col-auto d-none d-lg-inline-block">
+                <span class="w-1px h-20px bg-extra-medium-gray d-block"></span>
+            </div>
+            <div class="col-auto icon-with-text-style-08">
+                <div class="feature-box feature-box-left-icon">
+                    <div class="feature-box-icon me-5px">
+                        <i class="feather icon-feather-scissors top-9px position-relative text-dark-gray icon-small"></i>
+                    </div>
+                    <div class="feature-box-content">
+                        <span class="d-inline-block text-dark-gray align-middle alt-font fw-500">Have a coupon? <a href="#" class="text-decoration-line-bottom fw-600 text-dark-gray">Click here to enter your code</a></span>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <div class="row align-items-start">
+            <div class="col-lg-7 pe-50px md-pe-15px md-mb-50px xs-mb-35px">
+                <span class="fs-26 alt-font fw-600 text-dark-gray mb-20px d-block">Detalles de facturación</span>
+                <form method="post" id="address-form">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6 mb-20px">
+                            <label class="mb-10px">Nombre <span class="text-red">*</span></label>
+                            {{ form.first_name }}
+                        </div>
+                        <div class="col-md-6 mb-20px">
+                            <label class="mb-10px">Last name <span class="text-red">*</span></label>
+                            {{ form.last_name }}
+                        </div>
+                        <div class="col-12 mb-20px">
+                            <label class="mb-10px" for="contry1">Departamento <span class="text-red">*</span></label>
+                            {{ form.department }}
+                        </div>
+                        <div class="col-12 mb-20px">
+                            <label class="mb-10px">Dirección <span class="text-red">*</span></label>
+                            {{ form.address }}
+                        </div>
+                        <div class="col-12 mb-20px">
+                            <label class="mb-10px">Barrio <span class="text-red">*</span></label>
+                            {{ form.neighborhood }}
+                        </div>
+                        <div class="col-12 mb-20px">
+                            <label class="mb-10px" for="state1">Información adicional (apto, ed, etc..) <span class="text-red">*</span></label>
+                            {{ form.additional_information }}
+                        </div>
+                        <div class="col-12 mb-20px">
+                            <label class="mb-10px">Telefóno <span class="text-red">*</span></label>
+                            {{ form.phone_number }}
+                        </div>
+                        <div class="col-12 mb-20px">
+                            <label class="mb-10px">Email address <span class="text-red">*</span></label>
+                            {{ form.email }}
+                        </div>
+                        <!-- start tab content -->
+                        {% if not user %}
+                            <div class="col-md-12 mb-5px checkout-accordion"> 
+                                <div class="position-relative terms-condition-box text-start d-flex align-items-center">
+                                    <label>
+                                        {{ form.create_account }}
+                                        <input type="checkbox" name="terms_condition" id="terms_condition1" value="1" class="terms-condition check-box align-middle">
+                                        <span class="box">Crear una cuenta?</span>
+                                        <a class="accordion-toggle" data-bs-toggle="collapse" data-bs-parent="#accordion1" href="#collapseThree"></a>
+                                    </label>
+                                </div> 
+                            </div>
+                        <!-- end tab content -->
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-5">
+                <div class="bg-very-light-gray border-radius-6px p-50px lg-p-25px your-order-box">
+                    <span class="fs-26 alt-font fw-600 text-dark-gray mb-5px d-block">Tú orden</span>
+                    <table class="w-100 total-price-table your-order-table">
+                        <tbody>
+                            <tr>
+                                <th class="w-60 lg-w-55 xs-w-50 fw-600 text-dark-gray alt-font">Producto</th>
+                                <td class="fw-600 text-dark-gray alt-font">Total</td>
+                            </tr>
+                            {% if cart_items %}
+                                {% for item in cart_items %}
+                                    <tr class="product">
+                                        <td class="product-thumbnail">
+                                            <a href="demo-decor-store-single-product.html" class="text-dark-gray fw-500 d-block lh-initial">{{item.product.name}} x {{item.quantity}}</a>
+                                            <span class="fs-14 d-block">Talla: {{item.size}}</span>
+                                        </td>
+                                        <td class="product-price" data-title="Price">${{item.subtotal}}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}
+                            <tr>
+                                <th class="w-50 fw-600 text-dark-gray alt-font">Subtotal</th>
+                                <td class="text-dark-gray fw-600">${{subtotal}}</td>
+                            </tr>
+                            <tr class="shipping">
+                                <th class="fw-600 text-dark-gray alt-font">Shipping</th>
+                                <td data-title="Shipping">
+                                    <ul class="p-0">
+                                        <li class="d-flex align-items-center">
+                                            <input id="free_shipping" type="radio" name="shipping-option" class="d-block w-auto mb-0 me-10px p-0" checked="checked">
+                                            <label class="md-line-height-18px" for="free_shipping">Free shipping</label>
+                                        </li>
+                                        <li class="d-flex align-items-center">
+                                            <input id="flat" type="radio" name="shipping-option" class="d-block w-auto mb-0 me-10px p-0">
+                                            <label class="md-line-height-18px" for="flat">Flat: $12.00</label>
+                                        </li>
+                                        <li class="d-flex align-items-center">
+                                            <input id="local_pickup" type="radio" name="shipping-option" class="d-block w-auto mb-0 me-10px p-0">
+                                            <label class="md-line-height-18px" for="local_pickup">Local pickup</label>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr> 
+                            <tr class="total-amount">
+                                <th class="fw-600 text-dark-gray alt-font">Total</th>
+                                <td data-title="Total">
+                                    <h6 class="d-block fw-700 mb-0 text-dark-gray alt-font">${{subtotal}}</h6>
+                                    <span class="fs-14">(Includes $19.29 tax)</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="fs-14 lh-26">Sus datos personales se utilizarán para procesar su pedido, respaldar su experiencia en este sitio web y para otros fines descritos en nuestra <a class="text-decoration-line-bottom text-dark-gray fw-500" href="#">política de privacidad.</a></p>
+                    <div class="position-relative terms-condition-box text-start d-flex align-items-center">
+                        <label>
+                            <input type="checkbox" name="terms_condition" id="terms_condition3" value="1" class="terms-condition check-box align-middle">
+                            <span class="box fs-14 lh-24">Estoy de acuerdo con el sitio web. <a href="#" class="text-decoration-line-bottom text-dark-gray fw-500">terminos y condiciones.</a></span>
+                        </label>
+                    </div>
+                    <button form="address-form" type="submit" class="btn btn-base-color btn-extra-large btn-switch-text btn-round-edge btn-box-shadow w-100 text-transform-none mt-30px">
+                        <span>
+                            <span class="btn-double-text" data-text="Pagar">Pagar</span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
