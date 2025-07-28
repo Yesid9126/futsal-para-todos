@@ -63,7 +63,7 @@ class WompiPayment:
             ]
             response_json = {
                 "status_code": status_code,
-                f'{"response" if success_response else "error"}': response.json(),
+                f"{'response' if success_response else 'error'}": response.json(),
             }
         except requests.exceptions.RequestException as e:
             status_code = getattr(e.response, "status_code", None)
