@@ -42,6 +42,7 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ["name", "brand__name", "category__name"]
     list_filter = ["is_available", "brand", "category"]
     readonly_fields = ["slug_name"]
+    autocomplete_fields = ["brand", "category"]
     inlines = [ProductImageInline, ProductStockBySizeInline]
 
 

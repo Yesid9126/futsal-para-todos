@@ -1,81 +1,109 @@
-# futsal_para_todos
+# 🏆 Futsal Para Todos
 
-sport ecommerce
+E-commerce deportivo especializado en productos de futsal. Desarrollado con Django, Django REST Framework, Docker, Celery y Redis.
 
-[![Built with Cookiecutter Django](https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg?logo=cookiecutter)](https://github.com/cookiecutter/cookiecutter-django/)
-[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+Gestión de productos, stock, categoria, subcategorias, comentarios, calificaciones y pasarela de pagos.
 
-License: MIT
+## 🔧 Tecnologías utilizadas
 
-## Settings
+- Python 3.13
+- Django
+- Django REST Framework
+- PostgreSQL
+- Docker y Docker Compose
+- Celery + Redis
+- pytest, coverage, mypy, ruff, pre-commit
 
-Moved to [settings](https://cookiecutter-django.readthedocs.io/en/latest/1-getting-started/settings.html).
 
-## Basic Commands
+## ⚙️ Instalación local con Docker
 
-### Setting Up Your Users
+### 1. Clonar el repositorio
 
-- To create a **normal user account**, just go to Sign Up and fill out the form. Once you submit it, you'll see a "Verify Your E-mail Address" page. Go to your console to see a simulated email verification message. Copy the link into your browser. Now the user's email should be verified and ready to go.
+```bash
+git clone https://github.com/Yesid9126/futsal_para_todos.git
+cd futsal_para_todos
+```
+### 2. Crear contenedores
 
-- To create a **superuser account**, use this command:
+- Para entorno local exportar el archivo **.yml**, export COMPOSE_FILE=docker-compose.local.yml
+- Crear contenedores **(cuando se exporta el COMPOSE_FILE)**
+    $ docker compose build
+- Crear contenedores **(cuando no se exporta el COMPOSE_FILE)**
+    $ docker compose -f docker-compose.local.yml build
+- Levantar servicios
+    $ docker compose up -d
 
-      $ python manage.py createsuperuser
+### 3. Crear super user
 
-For convenience, you can keep your normal user logged in on Chrome and your superuser logged in on Firefox (or similar), so that you can see how the site behaves for both kinds of users.
+- Crear **super usuario** para acceder al administrador de django
+    $ docker comose run --rm django python manage.py createsuperuser
 
-### Type checks
 
-Running type checks with mypy:
 
-    $ mypy fpt
+## 🧾 Alimentación inicial de la base de datos
 
-### Test coverage
+Antes de crear productos, es necesario tener creadas las entidades base: **marcas (brands)**, **categorías** y **subcategorías**. Los productos deben estar asociados obligatoriamente a cada una de estas.
 
-To run the tests, check your test coverage, and generate an HTML coverage report:
+### 1. Crear marcas
 
-    $ coverage run -m pytest
-    $ coverage html
-    $ open htmlcov/index.html
+Accede al panel de administración: [http://localhost:8000/admin/](http://localhost:8000/admin/)
+Ve a la sección **Brands** y crea al menos una marca.
 
-#### Running tests with pytest
+### 2. Crear categorías
 
-    $ pytest
+Desde el admin, accede a la sección **Categories** y crea las categorías necesarias (por ejemplo: "Calzado", "Ropa", "Accesorios") y dentro de cada categoria
+creas sus subcategorias.
 
-### Live reloading and Sass CSS compilation
+ **Mantener menos de 4 categorias creadas ya que son las que aparecen en el home**
 
-Moved to [Live reloading and SASS compilation](https://cookiecutter-django.readthedocs.io/en/latest/2-local-development/developing-locally.html#using-webpack-or-gulp).
+### 3. Crear subcategorías
+
+Una vez tengas categorías, entra en **Subcategories**, selecciona la categoría correspondiente y define las subcategorías (por ejemplo: para "Calzado" → "Zapatillas", "Botines", etc.).
+
+### 4. Crear productos
+
+Ahora puedes ir a **Products** y crear nuevos productos. Cada producto debe estar asociado a:
+
+- Una **Brand** (marca)
+- Una **Category** (categoría)
+- Una **Subcategory** (subcategoría)
+
+**⛔ Importante:** Si no existen estas entidades previas, **no podrás crear productos** correctamente, ya que el sistema requiere estas relaciones.
+
+### 5. Hooks de pagos
+
+pasarela de pagos wompi implementada se puede simular un pago, mas no se atualizaran los datos en la orden y carrito ya que el apuntamiento desde
+wompi esta direccionado a una url creada con ngrok para las pruebas, el flujo completo se realiza correctamente cuando se sube el ngrok y se configura.
+
+## 🧹 Pre-commit Hooks
+
+Este proyecto utiliza [pre-commit](https://pre-commit.com/) para asegurar una base de código limpia y consistente antes de cada commit ejecutando los sigueintes hooks:
+    - trim trailing whitespace
+    - fix end of files
+    - check yaml
+    - detect private key
+    - django-upgrade
+    - ruff
+    - ruff-format
+
+### 🔧 Ejecutar todos los hooks manualmente
+
+Puedes ejecutar todos los hooks del repositorio con el siguiente comando:
+
+```bash
+pre-commit run --show-diff-on-failure --color=always --all-files
+```
+
+
+
 
 ### Celery
 
-This app comes with Celery.
+Uso de celery para manejo de envio de mensajes que seran encolados en una nueva sección (todavía no incluida en este mvp).
 
-To run a celery worker:
+## Acceso celery flower
 
-```bash
-cd fpt
-celery -A config.celery_app worker -l info
-```
+[periodic tasks](https://docs.celeryq.dev/en/stable/userguide/periodic-tasks.html)
 
-Please note: For Celery's import magic to work, it is important _where_ the celery commands are run. If you are in the same folder with _manage.py_, you should be right.
-
-To run [periodic tasks](https://docs.celeryq.dev/en/stable/userguide/periodic-tasks.html), you'll need to start the celery beat scheduler service. You can start it as a standalone process:
-
-```bash
-cd fpt
-celery -A config.celery_app beat
-```
-
-or you can embed the beat service inside a worker with the `-B` option (not recommended for production use):
-
-```bash
-cd fpt
-celery -A config.celery_app worker -B -l info
-```
-
-## Deployment
-
-The following details how to deploy this application.
-
-### Docker
-
-See detailed [cookiecutter-django Docker documentation](https://cookiecutter-django.readthedocs.io/en/latest/3-deployment/deployment-with-docker.html).
+- http:localhost:5555
+- usuario = CELERY_FLOWER_USER, contraseña = CELERY_FLOWER_PASSWORD
