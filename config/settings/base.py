@@ -4,6 +4,8 @@
 import ssl
 from pathlib import Path
 
+from django.urls import reverse_lazy
+
 import environ
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
@@ -104,8 +106,8 @@ AUTHENTICATION_BACKENDS = [
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
 AUTH_USER_MODEL = "users.User"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
-LOGIN_URL = "/login"
-LOGIN_REDIRECT_URL = "/"
+LOGIN_URL = reverse_lazy("users:login")
+LOGIN_REDIRECT_URL = reverse_lazy("products:landing_page")
 LOGOUT_REDIRECT_URL = LOGIN_URL
 
 # PASSWORDS
@@ -327,3 +329,9 @@ SPECTACULAR_SETTINGS = {
 }
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+# WOMPI
+WOMPI_PUB_KEY = env("WOMPI_PUB_KEY", default="")
+WOMPI_PRIV_KEY = env("WOMPI_PRIV_KEY", default="")
+WOMPI_INTEGRITY_KEY = env("WOMPI_INTEGRITY_KEY", default="")
+API_WOMPI_URL = env("API_WOMPI_URL", default="")

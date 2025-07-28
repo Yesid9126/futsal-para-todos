@@ -12,7 +12,7 @@ from django.utils import timezone
 
 # Models
 from fpt.users.models import User, UserAddress, CodePromotion, UserPromotionCode
-from fpt.orders.models import Country, Department
+from fpt.orders.models import Department
 
 
 class UserChangeForm(admin_forms.UserChangeForm):
@@ -266,7 +266,9 @@ class UserAddressForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["department"].queryset = Department.objects.select_related("country").order_by("name")
+        self.fields["department"].queryset = Department.objects.select_related(
+            "country"
+        ).order_by("name")
 
     class Meta:
         model = UserAddress

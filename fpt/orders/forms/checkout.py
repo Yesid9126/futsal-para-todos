@@ -13,12 +13,16 @@ class CheckoutForm(forms.ModelForm):
     last_name = forms.CharField(max_length=150, required=True)
     email = forms.EmailField(required=True)
     phone_number = forms.CharField(max_length=17, required=True)
-    create_account = forms.BooleanField(required=False, label="¿Deseas crear una cuenta?")
+    create_account = forms.BooleanField(
+        required=False, label="¿Deseas crear una cuenta?"
+    )
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop("user")
         super().__init__(*args, **kwargs)
-        self.fields["department"].queryset = Department.objects.select_related("country").order_by("name")
+        self.fields["department"].queryset = Department.objects.select_related(
+            "country"
+        ).order_by("name")
         if user and user.is_authenticated:
             # Si ya hay usuario, rellenamos los datos del formulario
             self.fields["first_name"].initial = user.first_name

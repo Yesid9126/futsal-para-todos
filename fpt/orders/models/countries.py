@@ -13,12 +13,14 @@ class Country(models.Model):
 
 
 class Department(models.Model):
-    country = models.ForeignKey(Country, on_delete=models.CASCADE, related_name='departments')
+    country = models.ForeignKey(
+        Country, on_delete=models.CASCADE, related_name="departments"
+    )
     name = models.CharField(max_length=100)
     code = models.CharField(max_length=10, blank=True, null=True)
 
     class Meta:
-        unique_together = ('country', 'name')
+        unique_together = ("country", "name")
 
     def __str__(self):
         return f"{self.name} ({self.country.code})"

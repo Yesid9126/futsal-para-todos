@@ -5,7 +5,7 @@ from fpt.orders.models import Department, Country
 
 
 class Command(BaseCommand):
-    help = 'Carga los departamentos de Colombia desde una API gratuita'
+    help = "Carga los departamentos de Colombia desde una API gratuita"
 
     def handle(self, *args, **kwargs):
         url = "https://api-colombia.com/api/v1/Department"
@@ -18,10 +18,14 @@ class Command(BaseCommand):
                 Department.objects.update_or_create(
                     country=country,
                     name=dept["name"],
-                    defaults={
-                        "code": str(dept["id"])
-                    }
+                    defaults={"code": str(dept["id"])},
                 )
-            self.stdout.write(self.style.SUCCESS('Departamentos cargados exitosamente.'))
+            self.stdout.write(
+                self.style.SUCCESS("Departamentos cargados exitosamente.")
+            )
         else:
-            self.stdout.write(self.style.ERROR(f"Error al obtener los departamentos: {response.status_code}"))
+            self.stdout.write(
+                self.style.ERROR(
+                    f"Error al obtener los departamentos: {response.status_code}"
+                )
+            )

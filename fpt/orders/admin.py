@@ -1,5 +1,6 @@
 # Django
 from django.contrib import admin
+from django.utils.html import format_html
 
 # Models
 from fpt.orders.models import Order, Cart, CartItem, Country, Department
@@ -31,6 +32,33 @@ class OrderAdmin(admin.ModelAdmin):
         "user__phone_number",
     ]
     list_filter = ["status"]
+    readonly_fields = ["formatted_address"]
+
+    @admin.display(description="Dirección")
+    def formatted_address(self, obj):
+        if not obj.address:
+            return "No hay dirección asociada"
+
+        return format_html(
+            """
+            <table style="border-collapse: collapse;">
+                <tr><th style="text-align: left; padding-right: 10px;">Contacto:</th><td>{}</td></tr>
+                <tr><th style="text-align: left; padding-right: 10px;">Dirección:</th><td>{}</td></tr>
+                <tr><th style="text-align: left; padding-right: 10px;">Barrio:</th><td>{}</td></tr>
+                <tr><th style="text-align: left; padding-right: 10px;">Departamento:</th><td>{}</td></tr>
+                <tr><th style="text-align: left; padding-right: 10px;">País:</th><td>{}</td></tr>
+                <tr><th style="text-align: left; padding-right: 10px;">Tel. secundario:</th><td>{}</td></tr>
+                <tr><th style="text-align: left; padding-right: 10px;">Información adicional:</th><td>{}</td></tr>
+            </table>
+            """,
+            obj.address.user.phone_number or "-",
+            obj.address.address or "-",
+            obj.address.neighborhood or "-",
+            obj.address.department or "-",
+            obj.address.country or "-",
+            obj.address.secondary_contact or "-",
+            obj.address.additional_information or "-",
+        )
 
 
 @admin.register(Cart)

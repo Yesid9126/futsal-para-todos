@@ -89,21 +89,21 @@ class UserAddress(FptBaseModel):
         on_delete=models.CASCADE,
         null=True,
         blank=True,
-        related_name="user_address"
+        related_name="user_address",
     )
     country = models.ForeignKey(
         "orders.Country",
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name="user_addresses"
+        related_name="user_addresses",
     )
     department = models.ForeignKey(
         "orders.Department",
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name="user_addresses"
+        related_name="user_addresses",
     )
     address = models.CharField(max_length=500, blank=True, null=True)
     neighborhood = models.CharField(max_length=500, blank=True, null=True)

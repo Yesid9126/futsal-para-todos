@@ -11,8 +11,11 @@ from fpt.orders.forms.carts import CartItemForm
 # Models
 from fpt.orders.models.carts import CartItem
 
+# Utils
+from fpt.utils.mixins import EnsureCartExistsMixin
 
-class CartUpdateView(FormView):
+
+class CartUpdateView(EnsureCartExistsMixin, FormView):
     template_name = "cart/cart_forms.html"
     form_class = CartItemForm
     success_url = reverse_lazy("products:landing_page")
@@ -40,8 +43,5 @@ class CartUpdateView(FormView):
             messages.success(request, "Carrito actualizado correctamente.")
             return redirect(self.get_success_url())
         else:
-            import ipdb
-
-            ipdb.set_trace()
             messages.error(request, "Ocurrió u.")
             return self.render_to_response(self.get_context_data(formset=formset))

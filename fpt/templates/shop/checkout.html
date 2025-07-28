@@ -15,7 +15,7 @@
                         <i class="feather icon-feather-user top-9px position-relative text-dark-gray icon-small"></i>
                     </div>
                     <div class="feature-box-content">
-                        <span class="d-inline-block text-dark-gray align-middle alt-font fw-500">Returning customer? <a href="#" class="text-decoration-line-bottom fw-600 text-dark-gray">Click here to login</a></span> 
+                        <span class="d-inline-block text-dark-gray align-middle alt-font fw-500">Returning customer? <a href="#" class="text-decoration-line-bottom fw-600 text-dark-gray">Click here to login</a></span>
                     </div>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
         <div class="row align-items-start">
             <div class="col-lg-7 pe-50px md-pe-15px md-mb-50px xs-mb-35px">
                 <span class="fs-26 alt-font fw-600 text-dark-gray mb-20px d-block">Detalles de facturación</span>
@@ -73,7 +73,7 @@
                         </div>
                         <!-- start tab content -->
                         {% if not user %}
-                            <div class="col-md-12 mb-5px checkout-accordion"> 
+                            <div class="col-md-12 mb-5px checkout-accordion">
                                 <div class="position-relative terms-condition-box text-start d-flex align-items-center">
                                     <label>
                                         {{ form.create_account }}
@@ -81,11 +81,16 @@
                                         <span class="box">Crear una cuenta?</span>
                                         <a class="accordion-toggle" data-bs-toggle="collapse" data-bs-parent="#accordion1" href="#collapseThree"></a>
                                     </label>
-                                </div> 
+                                </div>
                             </div>
                         <!-- end tab content -->
                         {% endif %}
                     </div>
+                    <button form="address-form" type="submit" class="btn btn-base-color btn-extra-large btn-switch-text btn-round-edge btn-box-shadow w-100 text-transform-none mt-30px">
+                        <span>
+                            <span class="btn-double-text" data-text="Guardar">Guardar datos</span>
+                        </span>
+                    </button>
                 </form>
             </div>
             <div class="col-lg-5">
@@ -130,7 +135,7 @@
                                         </li>
                                     </ul>
                                 </td>
-                            </tr> 
+                            </tr>
                             <tr class="total-amount">
                                 <th class="fw-600 text-dark-gray alt-font">Total</th>
                                 <td data-title="Total">
@@ -147,7 +152,7 @@
                             <span class="box fs-14 lh-24">Estoy de acuerdo con el sitio web. <a href="#" class="text-decoration-line-bottom text-dark-gray fw-500">terminos y condiciones.</a></span>
                         </label>
                     </div>
-                    <button form="address-form" type="submit" class="btn btn-base-color btn-extra-large btn-switch-text btn-round-edge btn-box-shadow w-100 text-transform-none mt-30px">
+                    <button id="pay-button" class="btn btn-base-color btn-extra-large btn-switch-text btn-round-edge btn-box-shadow w-100 text-transform-none mt-30px">
                         <span>
                             <span class="btn-double-text" data-text="Pagar">Pagar</span>
                         </span>
@@ -157,4 +162,68 @@
         </div>
     </div>
 </section>
+
+
+{% block javascript %}
+    <script src="https://checkout.wompi.co/widget.js"></script>
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById("address-form");
+            const payButton = document.getElementById("pay-button");
+            const requiredFields = form.querySelectorAll("input[required], select[required], textarea[required]");
+            payButton.disabled = true;
+
+            function validateForm() {
+                let valid = true;
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        valid = false;
+                    }
+                });
+                payButton.disabled = !valid;
+            }
+
+            requiredFields.forEach(field => {
+                field.addEventListener("input", validateForm);
+                field.addEventListener("change", validateForm);
+            });
+            validateForm();
+
+            // Wompi
+            const wompiReference = "{{ wompi_reference|escapejs }}";
+            const wompiAmount = {{ wompi_amount|default:"0" }};
+            const wompiPublicKey = "{{ wompi_public_key|escapejs }}";
+            const wompiSignature = "{{ wompi_signature|escapejs }}";
+            const urlRedirect = "{{ url_redirect|escapejs }}";
+            const email = "{{ user_email }}"
+            const phone = "{{ user_phone }}"
+            const full_name = "{{ user_full_name }}"
+            const prefix = "{{ prefix }}"
+
+            payButton.addEventListener("click", function (event) {
+                event.preventDefault();
+                const checkout = new WidgetCheckout({
+                    currency: "COP",
+                    amountInCents: wompiAmount,
+                    reference: wompiReference,
+                    publicKey: wompiPublicKey,
+                    signature: {integrity : wompiSignature},
+                    redirectUrl: urlRedirect,
+                    customerData: {
+                        email: email,
+                        fullName: full_name,
+                        phoneNumber: phone,
+                        phoneNumberPrefix: prefix,
+                    },
+                });
+                checkout.open(function (result) {
+                    var transaction = result.transaction;
+                    console.log(transaction)
+                    console.log("Transaction ID: ", transaction.id);
+                    console.log("Transaction object: ", transaction);
+                });
+            });
+        });
+    </script>
+{% endblock javascript %}
 {% endblock content %}
