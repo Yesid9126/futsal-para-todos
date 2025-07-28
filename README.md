@@ -74,7 +74,7 @@ Ahora puedes ir a **Products** y crear nuevos productos. Cada producto debe esta
 - Una **Brand** (marca)
 - Una **Category** (categoría)
 - Una **Subcategory** (subcategoría)
-- Stock **ProductStock** crear las tallas con su respectivo stock
+- Stock **ProductStock** dentro del producto crear la información de la talla del producto con su respectivo stock por talla el cual actualiza el stock general del producto.
 
 **⛔ Importante:** Si no existen estas entidades previas, **no podrás crear productos** correctamente, ya que el sistema requiere estas relaciones.
 
