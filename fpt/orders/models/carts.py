@@ -12,6 +12,7 @@ class Cart(FptBaseModel):
         ("OPEN", "Abierto"),
         ("EXPIRED", "Expirado"),
         ("CHECKED_OUT", "Convertido en orden"),
+        ("FINISHED", "Finalizado"),
     )
     user = models.ForeignKey(
         "users.User",

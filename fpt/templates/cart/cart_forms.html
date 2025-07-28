@@ -111,11 +111,11 @@
                             </tbody>
                         </table>
 
-                        <button type="submit" id="submit-cart-button" class="btn btn-base-color btn-extra-large btn-switch-text btn-round-edge btn-box-shadow w-100 text-transform-none mt-25px">
+                        <a href="{% url 'orders:checkout' %}" id="submit-cart-button" class="btn btn-base-color btn-extra-large btn-switch-text btn-round-edge btn-box-shadow w-100 text-transform-none mt-25px">
                             <span>
                                 <span class="btn-double-text" data-text="Pagar">Ir a pagar</span>
                             </span>
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -377,6 +377,6 @@
 </script>
 
 
-{% endblock js%}
+{% endblock js %}
 
 {% endblock %}

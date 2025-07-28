@@ -1,5 +1,8 @@
 # Django
 from django.core import paginator as pag
+from django.shortcuts import redirect
+from django.urls import reverse
+from django.contrib.auth.mixins import AccessMixin
 
 
 class BaseFilterMixin:
@@ -19,3 +22,18 @@ class BaseFilterMixin:
         except pag.EmptyPage:
             qs_paginated = paginator.page(paginator.num_pages)
         return qs_paginated
+
+
+class EnsureCartExistsMixin(AccessMixin):
+    """
+    Verifica si el request tiene un carrito válido.
+    Si no lo tiene, redirecciona a la página principal.
+    """
+
+    def dispatch(self, request, *args, **kwargs):
+        cart = getattr(request, "cart", None)
+
+        if not cart or cart.status != "OPEN":
+            return redirect(reverse("products:landing_page"))
+
+        return super().dispatch(request, *args, **kwargs)

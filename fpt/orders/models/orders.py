@@ -14,6 +14,8 @@ class Order(models.Model):
         ("CANCELLED", "Cancelada"),
     )
 
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="PENDING")
+    wompi_transaction_id = models.CharField(max_length=255, null=True, blank=True)
     cart = models.OneToOneField(
         "orders.Cart", on_delete=models.CASCADE, related_name="orders"
     )
@@ -28,7 +30,9 @@ class Order(models.Model):
         "users.UserAddress", on_delete=models.SET_NULL, null=True
     )
     total = models.DecimalField(max_digits=10, decimal_places=2)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="PENDING")
+    payment_method_type = models.CharField(max_length=100, blank=True, null=True)
+    transaction_id = models.CharField(max_length=100, blank=True, null=True)
+    hook_data = models.JSONField(null=True, blank=True)
 
     class Meta:
         verbose_name = "Orden"

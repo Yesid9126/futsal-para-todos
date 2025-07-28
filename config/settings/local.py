@@ -18,10 +18,10 @@ ALLOWED_HOSTS = [
     "localhost",
     "0.0.0.0",
     "127.0.0.1",
-    "054a-2800-e2-8880-14b5-df0-2384-2d82-76c9.ngrok-free.app",
+    "0bf0fa2f22ff.ngrok-free.app",
 ]  # noqa: S104
 CSRF_TRUSTED_ORIGINS = [
-    "https://054a-2800-e2-8880-14b5-df0-2384-2d82-76c9.ngrok-free.app",
+    "https://0bf0fa2f22ff.ngrok-free.app",
 ]
 # CACHES
 # ------------------------------------------------------------------------------
