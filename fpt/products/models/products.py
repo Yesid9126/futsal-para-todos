@@ -109,6 +109,22 @@ class ProductStockBySize(FutsalModel):
         """Return product name."""
         return self.product.name
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.product.stock = (
+            self.product.stock_by_size.aggregate(total=models.Sum("stock"))["total"]
+            or 0
+        )
+        self.product.save(update_fields=["stock"])
+
+    def delete(self, *args, **kwargs):
+        product = self.product
+        super().delete(*args, **kwargs)
+        product.stock = (
+            product.stock_by_size.aggregate(total=models.Sum("stock"))["total"] or 0
+        )
+        product.save(update_fields=["stock"])
+
 
 class ProductComment(FutsalModel):
     """Product comment model."""

@@ -27,16 +27,24 @@ cd futsal_para_todos
 
 - Para entorno local exportar el archivo **.yml**, export COMPOSE_FILE=docker-compose.local.yml
 - Crear contenedores **(cuando se exporta el COMPOSE_FILE)**
-    $ docker compose build
+```bash
+docker compose build
+```
 - Crear contenedores **(cuando no se exporta el COMPOSE_FILE)**
-    $ docker compose -f docker-compose.local.yml build
+```bash
+docker compose -f docker-compose.local.yml build
+```
 - Levantar servicios
-    $ docker compose up -d
+```bash
+    docker compose up -d
+```
 
 ### 3. Crear super user
 
 - Crear **super usuario** para acceder al administrador de django
-    $ docker comose run --rm django python manage.py createsuperuser
+```bash
+    docker comose run --rm django python manage.py createsuperuser
+```
 
 
 
@@ -46,8 +54,7 @@ Antes de crear productos, es necesario tener creadas las entidades base: **marca
 
 ### 1. Crear marcas
 
-Accede al panel de administración: [http://localhost:8000/admin/](http://localhost:8000/admin/)
-Ve a la sección **Brands** y crea al menos una marca.
+Accede al panel de administración **Brands** y crea al menos una marca: [http://localhost:8000/admin/products/brand/](http://localhost:8000/admin/products/brand/)
 
 ### 2. Crear categorías
 
@@ -67,6 +74,7 @@ Ahora puedes ir a **Products** y crear nuevos productos. Cada producto debe esta
 - Una **Brand** (marca)
 - Una **Category** (categoría)
 - Una **Subcategory** (subcategoría)
+- Stock **ProductStock** crear las tallas con su respectivo stock
 
 **⛔ Importante:** Si no existen estas entidades previas, **no podrás crear productos** correctamente, ya que el sistema requiere estas relaciones.
 
